@@ -20,8 +20,8 @@ export default {
 
   disableInputTitle: "屏蔽输入",
   disableMouseInput: "屏蔽鼠标输入",
-  disablePenInput: "屏蔽触摸输入",
-  disableTouchInput: "屏蔽笔输入",
+  disablePenInput: "屏蔽笔输入",
+  disableTouchInput: "屏蔽触摸输入",
 
   otherSettingsTitle: "其他设置",
   autoReload: "丢失链接后自动刷新",

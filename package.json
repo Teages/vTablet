@@ -1,7 +1,7 @@
 {
   "name": "vtablet",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "serve": "vite preview",
     "webbuild": "vite build",

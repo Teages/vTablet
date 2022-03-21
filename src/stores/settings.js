@@ -40,8 +40,8 @@ function getDefaultSetting() {
     },
     // Disable Input
     disablePenInput: false,
-    disableMouseInput: false,
-    disableTouchInput: false,
+    disableMouseInput: true,
+    disableTouchInput: true,
 
     language: 'auto',
 

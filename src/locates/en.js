@@ -20,8 +20,8 @@ export default {
 
   disableInputTitle: "Disable Input",
   disableMouseInput: "Disable mouse",
-  disablePenInput: "Disable touch",
-  disableTouchInput: "Disable pen",
+  disablePenInput: "Disable pen",
+  disableTouchInput: "Disable touch",
 
   otherSettingsTitle: "Other",
   autoReload: "Auto reload when disconnected",
