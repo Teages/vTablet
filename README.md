@@ -1,7 +1,12 @@
-# Vue 3 + Vite
+# vTablet
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Use your tablet (Android, iPad OS or Windows) as your osu digital! 
 
-## Recommended IDE Setup
+# Install
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+> still at beta, only tested on Windows 11, please create a issue if you meet problem! 
+
+1. Download from [Releases](https://github.com/Teages/vTablet/releases)
+2. Install VMulti with `VMulti Installer GUI.exe` (Thanks [InfinityGhost/TabletDriver](https://github.com/InfinityGhost/TabletDriver))
+3. Run `vTablet.exe`
+4. Visit `http://[your_ip_address]:8888` and enjoy
