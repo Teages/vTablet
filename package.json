@@ -9,10 +9,14 @@
   },
   "dependencies": {
     "@vueuse/core": "^8.1.2",
+    "ant-design-vue": "^2.2.8",
     "autoprefixer": "^10.4.4",
+    "daisyui": "^2.11.0",
     "pinia": "^2.0.12",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.23",
+    "unplugin-vue-components": "^0.18.3",
+    "vite-plugin-singlefile": "^0.7.1",
     "vue": "^3.2.25"
   },
   "devDependencies": {

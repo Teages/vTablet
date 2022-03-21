@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { viteSingleFile } from 'vite-plugin-singlefile'
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 const path = require('path')
 
@@ -8,6 +10,11 @@ const path = require('path')
 export default defineConfig({
   plugins: [
     vue(),
+    Components({
+      resolvers: [
+        AntDesignVueResolver(),
+      ],
+    }),
     viteSingleFile()
   ],
   resolve: {
