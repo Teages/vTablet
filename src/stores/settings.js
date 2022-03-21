@@ -38,6 +38,11 @@ function getDefaultSetting() {
       ariaBackground: "#606060",
       hideCAria: false
     },
+    // Disable Input
+    disablePenInput: false,
+    disableMouseInput: false,
+    disableTouchInput: false,
+
     fullScreenBtn: true,
     exitFullScreenBtn: true,
     settingBtn: true,

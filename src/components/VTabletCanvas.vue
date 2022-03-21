@@ -85,6 +85,9 @@ onMounted(() => {
   box.addEventListener('pointerup', e => pointerUp(e, ws))
 })
 function pointerEventHandle(event, ws) {
+  if (!preCheck(event)) {
+    return
+  }
   let box = document.getElementById('box')
   let aria = document.getElementById('aria')
   let ox = event.offsetX
@@ -139,6 +142,9 @@ function pointerEventHandle(event, ws) {
 
 }
 function pointerDown(event, ws) {
+  if (!preCheck(event)) {
+    return
+  }
   if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
     return
   }
@@ -151,6 +157,9 @@ function pointerDown(event, ws) {
   }, ws)
 }
 function pointerUp(event, ws) {
+  if (!preCheck(event)) {
+    return
+  }
   if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
   return
   }
@@ -165,6 +174,19 @@ function sendMsg(msgObj, ws) {
   } catch (error) {
     console.error(error)
   }
+}
+function preCheck(event) {
+  let type = event.pointerType.toLowerCase()
+  if (type == 'pen' && settings.data.disablePenInput) {
+    return false
+  }
+  if (type == 'mouse' && settings.data.disableMouseInput) {
+    return false
+  }
+  if (type == 'touch' && settings.data.disableTouchInput) {
+    return false
+  }
+  return true
 }
 function resize() {
   screen.value.height = window.innerHeight
