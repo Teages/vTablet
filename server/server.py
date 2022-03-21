@@ -40,7 +40,7 @@ def save_setting(data):
 
 
 def load_setting():
-    data = ""
+    data = "{}"
     if os.path.isfile(SETTING_FILE):
         with open(SETTING_FILE) as f:
             data = f.read()

@@ -29,26 +29,26 @@
       </div>
       <div class="max-h-full overflow-y-auto bg-base-100">
         <div class="m-auto max-w-md my-4">
-          <SettingBlock title="控制区域">
-            大小: {{settings.data.aria.size * 100}}%
+          <SettingBlock :title="$t(lang, 'controlSizetitle')">
+            {{$t(lang, 'size')}} {{settings.data.aria.size * 100}}%
             <input
               v-model="settings.data.aria.size"
               type="range" class="range"
               min="0.01" max="1" step="0.01"
             />
-            x 偏移: {{settings.data.aria.offset.x * 100}}%
+            {{$t(lang, 'offsetxX')}} {{settings.data.aria.offset.x * 100}}%
             <input
               v-model="settings.data.aria.offset.x"
               type="range" class="range"
               min="-1" max="1" step="0.01"
             />
-            y 偏移: {{settings.data.aria.offset.y * 100}}%
+            {{$t(lang, 'offsetxY')}} {{settings.data.aria.offset.y * 100}}%
             <input
               v-model="settings.data.aria.offset.y"
               type="range" class="range"
               min="-1" max="1" step="0.01"
             />
-            旋转: {{settings.data.aria.rotate}}°
+            {{$t(lang, 'rotate')}} {{settings.data.aria.rotate}}°
             <input
               v-model="settings.data.aria.rotate"
               type="range" class="range"
@@ -56,50 +56,51 @@
             />
           </SettingBlock>
           
-          <SettingBlock title="同步设置">
+          <SettingBlock :title="$t(lang, 'syncSettingsTitle')">
             <div class="card-actions min-w-full flex">
-              <button class="btn btn-success flex-1" @click="loadSetting">下载</button>
-              <button class="btn btn-warning flex-1" @click="saveSetting">上传</button>
-              <button class="btn btn-error flex-1" @click="settings.reset">重置</button>
+              <button class="btn btn-success flex-1" @click="loadSetting">{{$t(lang, 'download')}}</button>
+              <button class="btn btn-warning flex-1" @click="saveSetting">{{$t(lang, 'upload')}}</button>
+              <button class="btn btn-error flex-1" @click="settings.reset">{{$t(lang, 'reset')}}</button>
             </div>
           </SettingBlock>
 
-          <SettingBlock title="UI 设置">
-            <SettingSwitch title="显示设置按钮" v-model="settings.data.settingBtn" />
+          <SettingBlock :title="$t(lang, 'uiSettingsTitle')">
+            <SettingSwitch :title="$t(lang, 'showSettingBtn')" v-model="settings.data.settingBtn" />
             <div v-show="!settings.data.settingBtn" class="alert alert-warning shadow-lg">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                <span>可以刷新页面重新显示设置! </span>
+                <span>{{$t(lang, 'showSettingHit')}}</span>
               </div>
             </div>
-            <SettingSwitch title="显示全屏按钮" v-model="settings.data.fullScreenBtn" />
-            <SettingSwitch title="显示退出全屏按钮" v-model="settings.data.exitFullScreenBtn" />
-            <SettingSwitch title="隐藏控制区域" v-model="settings.data.theme.hideCAria" />
+            <SettingSwitch :title="$t(lang, 'showFullScreenBtn')" v-model="settings.data.fullScreenBtn" />
+            <SettingSwitch :title="$t(lang, 'showExitFullScreenBtn')" v-model="settings.data.exitFullScreenBtn" />
+            <SettingSwitch :title="$t(lang, 'hideControllAria')" v-model="settings.data.theme.hideCAria" />
           </SettingBlock>
 
-          <SettingBlock title="屏蔽输入">
-            <SettingSwitch title="屏蔽鼠标输入" v-model="settings.data.disableMouseInput" />
-            <SettingSwitch title="屏蔽触摸输入" v-model="settings.data.disablePenInput" />
-            <SettingSwitch title="屏蔽笔输入" v-model="settings.data.disableTouchInput" />
+          <SettingBlock :title="$t(lang, 'disableInputTitle')">
+            <SettingSwitch :title="$t(lang, 'disableMouseInput')" v-model="settings.data.disableMouseInput" />
+            <SettingSwitch :title="$t(lang, 'disablePenInput')" v-model="settings.data.disablePenInput" />
+            <SettingSwitch :title="$t(lang, 'disableTouchInput')" v-model="settings.data.disableTouchInput" />
           </SettingBlock>
           
-          <SettingBlock title="其他设置">
-            <SettingSwitch title="丢失链接后自动刷新" v-model="settings.data.autoReload" />
-            <SettingSwitch title="屏蔽点击输入" v-model="settings.data.blockClick" />
-            <SettingSwitch title="处理压力" v-model="settings.data.pressure" />
+          <SettingBlock :title="$t(lang, 'otherSettingsTitle')">
+            <SettingSwitch :title="$t(lang, 'autoReload')" v-model="settings.data.autoReload" />
+            <SettingSwitch :title="$t(lang, 'blockClick')" v-model="settings.data.blockClick" />
+            <SettingSwitch :title="$t(lang, 'handlePressure')" v-model="settings.data.pressure" />
             <div class="alert alert-info shadow-lg">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>仅支持 Windows, 需要驱动</span>
+                <span>{{$t(lang, 'vMultiHit')}}</span>
               </div>
             </div>
           </SettingBlock>
           
-          <SettingBlock title="软件信息">
-            选择语言
-            <select class="select select-info w-full">
-              <option>English</option>
-              <option>中文</option>
+          <SettingBlock :title="$t(lang, 'infoTitle')">
+            {{$t(lang, 'selectLang')}}
+            <select v-model="settings.data.language" class="select select-info w-full">
+              <option value="auto"> Auto </option>
+              <option value="en"> English </option>
+              <option value="zh"> 中文 </option>
             </select>
 
             <div class="flex content-center	justify-between items-center">
@@ -119,17 +120,23 @@
 
 <script setup>
 import { useSettingStore } from '@/stores/settings'
-import { onMounted } from "vue-demi";
+import { computed, onMounted } from "vue-demi";
+import { $t, autoLang } from '@/locates/main'
 
 import SettingBlock from './Settings/SettingBlock.vue'
 import SettingSwitch from './Settings/SettingSwitch.vue'
 
 const settings = useSettingStore()
 
-
 var ws = null
 
+var userLanguages = ['en']
+
 onMounted(()=>{
+  settings.loadSetting({})
+
+  userLanguages = navigator.languages
+  console.log(userLanguages, lang.value)
 
   console.log("connecting:", `ws://${window.location.host}/ws`)
   ws = new WebSocket(`ws://${window.location.host}/ws`)
@@ -154,7 +161,6 @@ onMounted(()=>{
 })
 
 function loadSetting() {
-  settings.reset()
   return ws.send(JSON.stringify({
     type: "load_setting"
   }))
@@ -168,6 +174,13 @@ function saveSetting() {
 function toGitHub() {
   window.open('https://github.com/Teages/vTablet', '__blank')
 }
+
+const lang = computed(() => {
+  if (settings.data.language && settings.data.language != 'auto') {
+    return settings.data.language
+  }
+  return autoLang(userLanguages)
+})
 </script>
 
 <script>

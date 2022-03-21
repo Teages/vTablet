@@ -43,6 +43,8 @@ function getDefaultSetting() {
     disableMouseInput: false,
     disableTouchInput: false,
 
+    language: 'auto',
+
     fullScreenBtn: true,
     exitFullScreenBtn: true,
     settingBtn: true,
