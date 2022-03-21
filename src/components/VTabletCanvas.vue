@@ -2,7 +2,6 @@
   <div class="h-screen w-screen overflow-visible select-none touch-none bg-black">
     <div id="box" :style="boxCSS">
       <div id="aria" :style="ariaCSS">
-        {{boxCSS}}
       </div>
     </div>
   </div>
@@ -10,42 +9,26 @@
 
 <script setup>
 import { computed, onMounted, ref } from "@vue/runtime-core"
-const settings = {
-  data: {
-    aria: {
-      size: 0.5,
-      offset: {
-        x: 0,
-        y: 0
-      },
-      rotate: 0,
-      scaleResize: 1,
-      tolerance: 100
-    },
-    theme: {
-      fullScreenBackground: "#000000",
-      ariaBackground: "#606060",
-      hideAria: false
-    },
-  }
-}
+import { useSettingStore } from '@/stores/settings'
+const settings = useSettingStore()
+
 const screen = ref({
   height: 1,
   width: 1
 })
-let scale = (16 / 9)
+let scale = ref(16 / 9)
 
 const maxAriaWidth = computed(() => {
-  return Math.min(screen.value.width, screen.value.height * scale)
+  return Math.min(screen.value.width, screen.value.height * scale.value)
 })
 const maxAriaHeight = computed(() => {
-  return maxAriaWidth.value / scale
+  return maxAriaWidth.value / scale.value
 })
 const ariaWidth = computed(() => {
   return maxAriaWidth.value * settings.data.aria.size
 })
 const ariaHeight = computed(() => {
-  return ariaWidth.value / scale
+  return ariaWidth.value / scale.value
 })
 const boxWidth = computed(() => {
   return screen.value.width * 2 - ariaWidth.value

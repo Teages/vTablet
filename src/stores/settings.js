@@ -35,7 +35,7 @@ function getDefaultSetting() {
     },
     theme: {
       fullScreenBackground: "#000000",
-      ariaBackground: "",
+      ariaBackground: "#606060",
       hideCAria: false
     },
     fullScreenBtn: true,
