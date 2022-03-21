@@ -3,7 +3,7 @@
     <div class="w-screen h-screen fixed top-0 left-0 bottom-0 right-0 z-10 bg-white flex flex-col	">
       <div class="navbar bg-base-100">
         <div class="flex-none">
-          <button class="btn btn-square btn-ghost" @click="settings.dialog = !settings.dialog">
+          <button class="btn btn-circle btn-ghost" @click="settings.dialog = !settings.dialog">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -27,28 +27,28 @@
           <button class="btn gap-2 btn-ghost" @click="isOpacity = !isOpacity">Preview</button>
         </div>
       </div>
-      <div class="max-h-full overflow-y-auto">
-        <div class="m-auto max-w-md ">
+      <div class="max-h-full overflow-y-auto bg-base-100">
+        <div class="m-auto max-w-md my-4">
           <SettingBlock title="控制区域">
-            大小
+            大小: {{settings.data.aria.size * 100}}%
             <input
               v-model="settings.data.aria.size"
               type="range" class="range"
               min="0.01" max="1" step="0.01"
             />
-            x 偏移
+            x 偏移: {{settings.data.aria.offset.x * 100}}%
             <input
               v-model="settings.data.aria.offset.x"
               type="range" class="range"
               min="-1" max="1" step="0.01"
             />
-            y 偏移
+            y 偏移: {{settings.data.aria.offset.y * 100}}%
             <input
               v-model="settings.data.aria.offset.y"
               type="range" class="range"
               min="-1" max="1" step="0.01"
             />
-            旋转
+            旋转: {{settings.data.aria.rotate}}°
             <input
               v-model="settings.data.aria.rotate"
               type="range" class="range"
@@ -64,15 +64,39 @@
           </SettingBlock>
           <SettingBlock title="UI 设置">
             <SettingSwitch title="显示设置按钮" v-model="settings.data.settingBtn" />
+            <div v-show="!settings.data.settingBtn" class="alert alert-warning shadow-lg">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <span>可以刷新页面重新显示设置! </span>
+              </div>
+            </div>
             <SettingSwitch title="显示全屏按钮" v-model="settings.data.fullScreenBtn" />
             <SettingSwitch title="显示退出全屏按钮" v-model="settings.data.exitFullScreenBtn" />
-            <SettingSwitch title="隐藏控制区域" v-model="settings.data.hideCAria" />
+            <SettingSwitch title="隐藏控制区域" v-model="settings.data.theme.hideCAria" />
           </SettingBlock>
           <SettingBlock title="其他设置">
+            <SettingSwitch title="丢失链接后自动刷新" v-model="settings.data.autoReload" />
             <SettingSwitch title="屏蔽点击输入" v-model="settings.data.blockClick" />
             <SettingSwitch title="处理压力" v-model="settings.data.pressure" />
+            <div class="alert alert-info shadow-lg">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>仅支持 Windows, 需要驱动</span>
+              </div>
+            </div>
+          </SettingBlock>
+          
+          <SettingBlock title="软件信息">
+            <div class="flex content-center	justify-between items-center">
+              Version 0.0.1 by @Teages
+              <button class="btn gap-2">
+                <svg class="h-6 w-6" viewBox="0 0 24 24"><path fill="currentColor" d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" /></svg>
+                GitHub
+              </button>
+            </div>
           </SettingBlock>
         </div>
+        <div class="min-h-16 h-24" />
       </div>
     </div>
   </div>
@@ -90,29 +114,29 @@ const settings = useSettingStore()
 
 var ws = null
 
-// onMounted(()=>{
+onMounted(()=>{
 
-//   console.log("connecting:", `ws://${window.location.host}/ws`)
-//   ws = new WebSocket(`ws://${window.location.host}/ws`)
+  console.log("connecting:", `ws://${window.location.host}/ws`)
+  ws = new WebSocket(`ws://${window.location.host}/ws`)
 
-//   ws.addEventListener('open', ()=>{
-//     loadSetting(ws)
-//   })
-//   ws.addEventListener('message', (e)=>{
-//     let cloudData = JSON.parse(e.data)
-//     console.log(e.data)
-//     try {
-//       let cloudSetting = JSON.parse(cloudData.setting)
-//       console.log(cloudSetting)
-//       if (!cloudSetting) throw "no cloud setting";
-//       settings.loadSetting(cloudSetting)
-//       console.log("loaded from server")
-//     } catch (error) {
-//       saveSetting(ws)
-//       console.error(error)
-//     }
-//   })
-// })
+  ws.addEventListener('open', ()=>{
+    loadSetting(ws)
+  })
+  ws.addEventListener('message', (e)=>{
+    let cloudData = JSON.parse(e.data)
+    console.log(e.data)
+    try {
+      let cloudSetting = JSON.parse(cloudData.setting)
+      console.log(cloudSetting)
+      if (!cloudSetting) throw "no cloud setting";
+      settings.loadSetting(cloudSetting)
+      console.log("loaded from server")
+    } catch (error) {
+      saveSetting(ws)
+      console.error(error)
+    }
+  })
+})
 
 function loadSetting() {
   return ws.send(JSON.stringify({

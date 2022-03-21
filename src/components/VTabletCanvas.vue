@@ -57,7 +57,8 @@ const ariaCSS = computed(() => {
   return {
     width: `${ariaWidth.value}px`,
     height: `${ariaHeight.value}px`,
-    background: settings.data.theme.ariaBackground
+    background: settings.data.theme.ariaBackground,
+    opacity: (settings.data.theme.hideCAria && !settings.dialog) ? '0' : '1'
   }
 })
 
@@ -66,12 +67,24 @@ onMounted(() => {
   window.addEventListener('resize', () => resize)
   window.onresize = resize
 
+  console.log("connecting:", `ws://${window.location.host}/ws`)
+  let ws = new WebSocket(`ws://${window.location.host}/ws`)
+  ws.addEventListener('close', (e) => {
+    if (settings.data.autoReload) {
+      alert("连接丢失, 需要刷新.")
+      console.error("连接丢失, 需要刷新.")
+      location.reload();
+    }
+  })
+
+
   let box = document.getElementById('box')
-  box.addEventListener('pointermove', e => pointerEventHandle(e))
-  box.addEventListener('pointerdown', e => pointerEventHandle(e))
-  box.addEventListener('pointerup', e => pointerEventHandle(e))
+  let aria = document.getElementById('aria')
+  box.addEventListener('pointermove', e => pointerEventHandle(e, ws))
+  aria.addEventListener('pointerdown', e => pointerDown(e, ws))
+  box.addEventListener('pointerup', e => pointerUp(e, ws))
 })
-function pointerEventHandle(event) {
+function pointerEventHandle(event, ws) {
   let box = document.getElementById('box')
   let aria = document.getElementById('aria')
   let ox = event.offsetX
@@ -107,7 +120,51 @@ function pointerEventHandle(event) {
     x = newX + 0.5
     y = newY + 0.5
   }
-  console.log(x, y)
+  // console.log(x, y)
+  if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
+    sendMsg({
+      type: 'digi',
+      x: Math.round(x * 32767),
+      y: Math.round(y * 32767),
+      pressure: event.pressure,
+      bottom: event.pressure > 0 ? 0x21 : 0x20
+    }, ws)
+  } else {
+    sendMsg({
+      type: 'move',
+      x: x,
+      y: y
+    }, ws)
+  }
+
+}
+function pointerDown(event, ws) {
+  if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
+    return
+  }
+  if (settings.data.blockClick) {
+    return 
+  }
+  sendMsg({
+    type: 'click',
+    action: 'down'
+  }, ws)
+}
+function pointerUp(event, ws) {
+  if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
+  return
+  }
+  sendMsg({
+    type: 'click',
+    action: 'up'
+  }, ws)
+}
+function sendMsg(msgObj, ws) {
+  try {
+    ws.send(JSON.stringify(msgObj))
+  } catch (error) {
+    console.error(error)
+  }
 }
 function resize() {
   screen.value.height = window.innerHeight

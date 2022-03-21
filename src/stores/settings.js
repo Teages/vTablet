@@ -42,6 +42,7 @@ function getDefaultSetting() {
     exitFullScreenBtn: true,
     settingBtn: true,
     blockClick: false,
-    pressure: false
+    pressure: false,
+    autoReload: true,
   }
 }
