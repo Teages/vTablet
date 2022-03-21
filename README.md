@@ -1,6 +1,6 @@
 # vTablet
 
-Use your tablet (Android, iPad OS or Windows) as your osu digital! 
+Use your tablet (Android, iPad OS or Windows) as your osu digitizer! 
 
 # Install
 
