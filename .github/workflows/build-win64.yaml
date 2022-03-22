@@ -1,0 +1,39 @@
+name: Build Windows x64
+on:
+  push:
+    branches: [ master ]
+# on:
+#   push:
+#     tags:
+#       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: install
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: webbuild
+
+    - name: PyInstaller Windows
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: server/win64
+
+    - name: copy file
+      uses: canastro/copy-file-action@master
+      with:
+        source: "server/packet/win/."
+        target: "server/win64/dist/windows/"
+        flags: '-r'
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: vTablet_windows_x64
+        path: server/win64/dist/windows # or path/to/artifact
+

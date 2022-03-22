@@ -7,7 +7,7 @@ console.log(run_cmd('yarn webbuild'))
 // copyFile('./dist/index.html', './build/index.html')
 
 console.log('Building Server')
-console.log(run_cmd('pyinstaller -F ./server.spec', path = "./server"))
+console.log(run_cmd('pyinstaller -F ./server-win64.spec', path = "./server"))
 copyFile('./server/dist/server.exe', './build/vTablet.exe')
 
 

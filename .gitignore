@@ -34,7 +34,7 @@ dist-ssr
 *.sw?
 
 # Python
-server/__pycache__
-server/build
-server/dist
+server/**/__pycache__
+server/**/build
+server/**/dist
 /build/*
