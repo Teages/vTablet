@@ -13,16 +13,33 @@ CLIENT_FILE = os.path.join(DATA_PATH, "index.html")
 HEIGHT, WIDTH = pyautogui.size()
 SETTING_FILE = "settings.json"
 
-VMULTI_DLL = CDLL(os.path.join(DATA_PATH, 'vTabletDriverDll.dll'))
+try: 
+    VMULTI_DLL = CDLL(os.path.join(DATA_PATH, 'vTabletDriverDll.dll'))
+except:
+    VMULTI_DLL = None
+
+IS_DEBUG = 0
+
+def log(msg, type="info"):
+    if type == "info":
+        print('\033[1;34;40m INFO \033[0m: ' + msg + '\033[0m \n')
+    elif type == "debug":
+        if IS_DEBUG == 1:
+            print('\033[1;36;40m DEBUG \033[0m: ' + msg + '\033[0m \n')
+    elif type == "error":
+        print('\033[1;31;40m ERR \033[0m: ' + msg + '\033[0m \n')
+    elif type == "warn":
+        print('\033[1;33;40m WARN \033[0m: ' + msg + '\033[0m \n')
 
 class VMulti:
     def __init__(self):
         try:
             VMULTI_DLL.vMulti_connect.restype = c_uint64
             self.controller = VMULTI_DLL.vMulti_connect()
-            print(self.controller)
+            print('\n')
+            log("Connected to vMulti: {}.".format(self.controller))
         except:
-            print('no vMulti devices')
+            log('no vMulti devices', "error")
             pass
     def update_digi(self, x, y, p, b):
         if not self.is_connected():
@@ -36,7 +53,7 @@ vmulti = VMulti()
 def save_setting(data):
     with open(SETTING_FILE, 'w') as f:
         f.write(data)
-    print("Saved")
+    log("Saved settings from devices.")
 
 
 def load_setting():
@@ -65,21 +82,21 @@ class WSHandler(WebsocketHandler):
         return 0, {}
 
     def on_open(self, session: WebsocketSession):
-        print(">> Connected! ")
-        # print(session.request.path_values)
+        log(">> Connected! ")
+        # log(session.request.path_values)
 
     def on_close(self, session: WebsocketSession, reason: str):
-        print(">> Closeed Connect::")
-        # print(reason)
+        log(">> Closeed Connect::")
+        # log(reason)
 
     def on_text_message(self, session: WebsocketSession, message: str):
-        # print(">> Got text message: ")
-        # print(message)
+        # log(">> Got text message: ")
+        # log(message)
 
         data = json.loads(message)
 
         if data["type"] == "move":
-            # print(float(data['x']) * HEIGHT, float(data['y']) * WIDTH)
+            # log(float(data['x']) * HEIGHT, float(data['y']) * WIDTH)
             mouse.move(float(data['x']) * HEIGHT, float(data['y']) * WIDTH)
 
         elif data["type"] == "click":
@@ -93,7 +110,7 @@ class WSHandler(WebsocketHandler):
             y = data['y']
             pressure = data['pressure']
             bottom = data['bottom']
-            print(x, y, pressure, bottom)
+            log("x: {0}, y: {1}, pressure: {2}, b: {3}".format(x, y, pressure, bottom), "debug")
             is_success = vmulti.update_digi(x, y, pressure, bottom)
 
         elif data["type"] == "save_setting":
@@ -104,9 +121,18 @@ class WSHandler(WebsocketHandler):
             return
 
 
-def main(*args):
+def main(args):
+    arg = "".join(str(args))
+    if arg.find('-debug') > 0 :
+        global IS_DEBUG
+        IS_DEBUG = 1
+
+    log("{}".format(args), "debug")
+    log("Server running")
+    log("Debug mode", "debug")
+    
     server.start(port=8888)
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
