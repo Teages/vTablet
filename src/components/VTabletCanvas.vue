@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "@vue/runtime-core"
+import { computed, onMounted, ref } from "vue"
 import { useSettingStore } from '@/stores/settings'
 const settings = useSettingStore()
 
