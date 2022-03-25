@@ -51,5 +51,6 @@ function getDefaultSetting() {
     blockClick: false,
     pressure: false,
     autoReload: true,
+    doNotSleep: false,
   }
 }
