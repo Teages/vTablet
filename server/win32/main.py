@@ -26,8 +26,6 @@ def log(msg, type="info"):
     elif type == "debug":
         if IS_DEBUG == 1:
             print('\033[1;36;40m DEBUG \033[0m: ' + msg + '\033[0m \n')
-        else:
-            print(IS_DEBUG)
     elif type == "error":
         print('\033[1;31;40m ERR \033[0m: ' + msg + '\033[0m \n')
     elif type == "warn":
@@ -73,6 +71,12 @@ def frontend_ctroller_function():
     if os.path.isfile(CLIENT_FILE):
         with open(CLIENT_FILE, 'r', encoding='utf-8') as f:
             data = f.read()
+    elif os.path.isfile("index.html"):
+        log("Finding client file...")
+        with open(CLIENT_FILE, 'r', encoding='utf-8') as f:
+            data = f.read()
+    else:
+        log("Client file not found.")
     return data
 
 
@@ -125,12 +129,15 @@ class WSHandler(WebsocketHandler):
 
 def main(args):
     arg = "".join(str(args))
-    if arg.find('-debug'):
+    if arg.find('-debug') > 0 :
         global IS_DEBUG
-        IS_DEBUG += 1
+        IS_DEBUG = 1
+
     log("{}".format(args), "debug")
     log("Server running")
+    print("CLIENT_FILE: {}".format(CLIENT_FILE), 'debug')
     log("Debug mode", "debug")
+
     server.start(port=8888)
 
 

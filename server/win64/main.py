@@ -71,6 +71,12 @@ def frontend_ctroller_function():
     if os.path.isfile(CLIENT_FILE):
         with open(CLIENT_FILE, 'r', encoding='utf-8') as f:
             data = f.read()
+    elif os.path.isfile("index.html"):
+        log("Finding client file...")
+        with open(CLIENT_FILE, 'r', encoding='utf-8') as f:
+            data = f.read()
+    else:
+        log("Client file not found.")
     return data
 
 
@@ -129,8 +135,9 @@ def main(args):
 
     log("{}".format(args), "debug")
     log("Server running")
+    print("CLIENT_FILE: {}".format(CLIENT_FILE), 'debug')
     log("Debug mode", "debug")
-    
+
     server.start(port=8888)
 
 
