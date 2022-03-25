@@ -135,7 +135,7 @@ def main(args):
 
     log("{}".format(args), "debug")
     log("Server running")
-    print("CLIENT_FILE: {}".format(CLIENT_FILE), 'debug')
+    log("CLIENT_FILE: {}".format(CLIENT_FILE), 'debug')
     log("Debug mode", "debug")
 
     server.start(port=8888)
