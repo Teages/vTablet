@@ -25,6 +25,7 @@ export default {
 
   otherSettingsTitle: "Other",
   autoReload: "Auto reload when disconnected",
+  doNotSleep: "No sleep",
   blockClick: "Disable click",
   handlePressure: "Handle pressure data",
   vMultiHit: "Support Windows only, need to install vMulti driver",

@@ -3,7 +3,7 @@
     <div class="w-screen h-screen fixed top-0 left-0 bottom-0 right-0 z-10 bg-white flex flex-col	">
       <div class="navbar bg-base-100">
         <div class="flex-none">
-          <button class="btn btn-circle btn-ghost" @click="settings.dialog = !settings.dialog">
+          <button class="btn btn-circle btn-ghost" @click="closeDialog">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -85,6 +85,7 @@
           
           <SettingBlock :title="$t(lang, 'otherSettingsTitle')">
             <SettingSwitch :title="$t(lang, 'autoReload')" v-model="settings.data.autoReload" />
+            <SettingSwitch :title="$t(lang, 'doNotSleep')" v-model="settings.data.doNotSleep" />
             <SettingSwitch :title="$t(lang, 'blockClick')" v-model="settings.data.blockClick" />
             <SettingSwitch :title="$t(lang, 'handlePressure')" v-model="settings.data.pressure" />
             <div class="alert alert-info shadow-lg">
@@ -122,6 +123,7 @@
 import { useSettingStore } from '@/stores/settings'
 import { computed, onMounted } from "vue";
 import { $t, autoLang } from '@/locates/main'
+import NoSleep from 'nosleep.js';
 
 import SettingBlock from './Settings/SettingBlock.vue'
 import SettingSwitch from './Settings/SettingSwitch.vue'
@@ -131,6 +133,9 @@ const settings = useSettingStore()
 var ws = null
 
 var userLanguages = ['en']
+
+var noSleep = new NoSleep()
+var isNoSleeping = false
 
 onMounted(()=>{
   settings.loadSetting({})
@@ -181,6 +186,16 @@ const lang = computed(() => {
   }
   return autoLang(userLanguages)
 })
+
+function closeDialog() {
+  settings.dialog = false
+  if (settings.data.doNotSleep && (!isNoSleeping)) {
+    noSleep.enable()
+    isNoSleeping = true
+  } else if ((!settings.data.doNotSleep) && isNoSleeping) {
+    noSleep.disable()
+  }
+}
 </script>
 
 <script>
