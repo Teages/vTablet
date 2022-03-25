@@ -1,7 +1,7 @@
 name: Build Windows x64
 on:
   release:
-    types: [prereleased]
+    prereleased: released
       
 jobs:
   build:
