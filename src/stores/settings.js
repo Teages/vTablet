@@ -31,7 +31,6 @@ function getDefaultSetting() {
       },
       rotate: 0,
       scaleResize: 1,
-      tolerance: 100
     },
     theme: {
       fullScreenBackground: "#000000",

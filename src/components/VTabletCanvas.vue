@@ -16,7 +16,11 @@ const screen = ref({
   height: 1,
   width: 1
 })
-let scale = ref(16 / 9)
+let serverScale = ref(16 / 9)
+
+const scale = computed(() => {
+  return serverScale.value * (settings.data.aria.scaleResize || 1)
+})
 
 const maxAriaWidth = computed(() => {
   return Math.min(screen.value.width, screen.value.height * scale.value)
@@ -63,6 +67,7 @@ const ariaCSS = computed(() => {
 })
 
 onMounted(() => {
+  syncServerData()
   resize()
   window.addEventListener('resize', () => resize)
   window.onresize = resize
@@ -191,5 +196,25 @@ function preCheck(event) {
 function resize() {
   screen.value.height = window.innerHeight
   screen.value.width = window.innerWidth
+}
+function syncServerData(times = 5) {
+  let serverUrl = import.meta.env.PROD ? window.location.host : 'localhost:8888'
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', `http://${serverUrl}/server-data`, false)
+  xhr.onload = function() {
+    if (xhr.status != 200) {
+      syncServerData(times - 1)
+    } else {
+      let serverData = JSON.parse(xhr.response)
+      console.log(serverData)
+      serverScale.value = serverData.screen.width / serverData.screen.height
+    }
+  }
+  xhr.onerror = function() {
+    if (times > 0) {
+      syncServerData(times - 1)
+    }
+  }
+  xhr.send()
 }
 </script>

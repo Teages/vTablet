@@ -5,12 +5,12 @@ import json
 import sys
 import pyautogui
 import os.path
-from simple_http_server import WebsocketHandler, WebsocketRequest, WebsocketSession, websocket_handler, request_map
+from simple_http_server import WebsocketHandler, WebsocketRequest, WebsocketSession, websocket_handler, request_map, Headers
 import simple_http_server.server as server
 
 DATA_PATH = os.path.split(os.path.realpath(__file__))[0]
 CLIENT_FILE = os.path.join(DATA_PATH, "index.html")
-HEIGHT, WIDTH = pyautogui.size()
+WIDTH, HEIGHT = pyautogui.size()
 SETTING_FILE = "settings.json"
 
 # VMULTI_DLL = CDLL(os.path.join(DATA_PATH, 'vTabletDriverDll.dll'))
@@ -47,6 +47,18 @@ def load_setting():
     return data
 
 
+# Data
+@request_map("/server-data")
+def frontend_ctroller_functison():
+    return Headers({
+        "Access-Control-Allow-Origin": "*"
+    }), {
+        'screen': {
+            'width': WIDTH,
+            'height': HEIGHT
+        }
+    }
+
 # Client
 @request_map("/")
 def frontend_ctroller_function():
@@ -79,8 +91,7 @@ class WSHandler(WebsocketHandler):
         data = json.loads(message)
 
         if data["type"] == "move":
-            # print(float(data['x']) * HEIGHT, float(data['y']) * WIDTH)
-            mouse.move(float(data['x']) * HEIGHT, float(data['y']) * WIDTH)
+            mouse.move(float(data['x']) * WIDTH, float(data['y']) * HEIGHT)
 
         elif data["type"] == "click":
             if data["action"] == "down":
