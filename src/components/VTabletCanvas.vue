@@ -67,8 +67,8 @@ onMounted(() => {
   window.addEventListener('resize', () => resize)
   window.onresize = resize
 
-  console.log("connecting:", `ws://${window.location.host}/ws`)
-  let ws = new WebSocket(`ws://${window.location.host}/ws`)
+  console.log("connecting:", `ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
+  let ws = new WebSocket(`ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
   ws.addEventListener('close', (e) => {
     if (settings.data.autoReload) {
       alert("连接丢失, 需要刷新.")
