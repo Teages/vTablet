@@ -9,8 +9,6 @@ export const useSettingStore = defineStore('settings', {
       dialog: true
     }
   },
-  // could also be defined as
-  // state: () => ({ count: 0 })
   actions: {
     reset() {
       this.data = getDefaultSetting()
@@ -48,7 +46,7 @@ function getDefaultSetting() {
     exitFullScreenBtn: true,
     settingBtn: true,
     blockClick: false,
-    pressure: false,
+    pressure: true,
     autoReload: true,
     doNotSleep: false,
   }

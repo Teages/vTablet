@@ -1,5 +1,6 @@
 export default {
   hello: "你好",
+  languageName: "中文",
   controlSizetitle: "控制区域",
   size: "大小:",
   offsetxX: "x 偏移:",

@@ -1,5 +1,6 @@
 export default {
   hello: "Hello",
+  languageName: "English",
   controlSizetitle: "Control Aria",
   size: "Size:",
   offsetxX: "Offset X:",

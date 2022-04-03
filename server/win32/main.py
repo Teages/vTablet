@@ -137,8 +137,13 @@ class WSHandler(WebsocketHandler):
             session.send(json.dumps({"setting": load_setting()}))
             return
 
+def copyRight():
+    log("vTablet (c) Teages 2022")
+    log("The source code shared with GNU GPLv3")
+    log("See: https://github.com/Teages/vTablet")
 
 def main(args):
+    copyRight()
     arg = "".join(str(args))
     if arg.find('-debug') > 0 :
         global IS_DEBUG
