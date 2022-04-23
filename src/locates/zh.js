@@ -6,6 +6,7 @@ export default {
   offsetxX: "x 偏移:",
   offsetxY: "y 偏移:",
   rotate: "旋转:",
+  preview: "预览控制区域",
 
   syncSettingsTitle: "同步设置",
   download: "下载",

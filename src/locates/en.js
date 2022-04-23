@@ -6,6 +6,7 @@ export default {
   offsetxX: "Offset X:",
   offsetxY: "Offset Y:",
   rotate: "Rotate:",
+  preview: "Preview",
 
   syncSettingsTitle: "Sync Setting",
   download: "Download",

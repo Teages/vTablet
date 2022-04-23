@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ opacity: isOpacity ? 0.4 : 1 }" v-show="settings.dialog">
+  <div :style="{ opacity: isOpacity ? 0.4 : 1 }" class="transition-opacity" v-show="settings.dialog">
     <div class="w-screen h-screen fixed top-0 left-0 bottom-0 right-0 z-10 bg-white flex flex-col	">
       <div class="navbar bg-base-100">
         <div class="flex-none">
@@ -23,16 +23,13 @@
         <div class="flex-1">
           <a class="btn btn-ghost normal-case text-xl">vTablet</a>
         </div>
-        <div class="flex-1 select-none" style="opacity: 0.8">
+        <div class="flex-none select-none mx-5" style="opacity: 0.8">
           <div :class="'badge gap-2 ' + getDelayColor()">
             <svg style="width:12px;height:12px" viewBox="0 0 24 24">
               <path fill="currentColor" d="M1,21H21V1" />
             </svg>
             {{ wsDelay }} ms
           </div>
-        </div>
-        <div class="flex-none">
-          <button class="btn gap-2 btn-ghost" @click="isOpacity = !isOpacity">Preview</button>
         </div>
       </div>
       <div class="max-h-full overflow-y-auto bg-base-100">
@@ -62,6 +59,7 @@
               type="range" class="range"
               min="-90" max="90" step="1"
             />
+              <button class="btn flex-1 mt-4" @click="isOpacity = !isOpacity">{{$t(lang, 'preview')}}</button>
           </SettingBlock>
           
           <SettingBlock :title="$t(lang, 'syncSettingsTitle')">
