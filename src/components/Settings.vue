@@ -23,6 +23,14 @@
         <div class="flex-1">
           <a class="btn btn-ghost normal-case text-xl">vTablet</a>
         </div>
+        <div class="flex-1 select-none" style="opacity: 0.8">
+          <div :class="'badge gap-2 ' + getDelayColor()">
+            <svg style="width:12px;height:12px" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M1,21H21V1" />
+            </svg>
+            {{ wsDelay }} ms
+          </div>
+        </div>
         <div class="flex-none">
           <button class="btn gap-2 btn-ghost" @click="isOpacity = !isOpacity">Preview</button>
         </div>
@@ -121,7 +129,7 @@
 
 <script setup>
 import { useSettingStore } from '@/stores/settings'
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { $t, autoLang } from '@/locates/main'
 import NoSleep from 'nosleep.js';
 
@@ -129,6 +137,8 @@ import SettingBlock from './Settings/SettingBlock.vue'
 import SettingSwitch from './Settings/SettingSwitch.vue'
 
 const settings = useSettingStore()
+
+const wsDelay = ref(-1)
 
 var ws = null
 
@@ -146,21 +156,33 @@ onMounted(()=>{
   console.log("connecting:", `ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
   ws = new WebSocket(`ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
 
+  const pingPerSecond = () => {
+    if (settings.dialog) {
+      ping()
+    }
+    setTimeout(pingPerSecond, 1000);
+  }
+  
   ws.addEventListener('open', ()=>{
     loadSetting()
+    pingPerSecond()
   })
   ws.addEventListener('message', (e)=>{
     let cloudData = JSON.parse(e.data)
-    console.log(e.data)
-    try {
-      let cloudSetting = JSON.parse(cloudData.setting)
-      console.log(cloudSetting)
-      if (!cloudSetting) throw "no cloud setting";
-      settings.loadSetting(cloudSetting)
-      console.log("loaded from server")
-    } catch (error) {
-      // saveSetting()
-      console.error(error)
+    if (cloudData.settings) {
+      console.log(cloudData)
+      try {
+        let cloudSetting = JSON.parse(cloudData.setting)
+        console.log(cloudSetting)
+        if (!cloudSetting) throw "no cloud setting";
+        settings.loadSetting(cloudSetting)
+        console.log("loaded from server")
+      } catch (error) {
+        // saveSetting()
+        console.error(error)
+      }
+    } else if (cloudData.pong) {
+      pong(cloudData.pong.time)
     }
   })
 })
@@ -195,6 +217,28 @@ function closeDialog() {
   } else if ((!settings.data.doNotSleep) && isNoSleeping) {
     noSleep.disable()
   }
+}
+
+function ping() {
+  // console.log("ping")
+  return ws.send(JSON.stringify({
+    type: "ping",
+    time: (new Date()).getTime() % 2147483647
+  }))
+}
+function pong(time) {
+  wsDelay.value = (new Date()).getTime() % 2147483647 - time
+}
+function getDelayColor() {
+  let delay = wsDelay.value
+  if (delay > 200 || delay < 0) {
+    return 'badge-error'
+  }
+  if (delay > 30) {
+    return 'badge-warning'
+  }
+  return 'badge-success'
+
 }
 </script>
 

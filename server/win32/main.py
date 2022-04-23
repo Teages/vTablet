@@ -145,6 +145,10 @@ class WSHandler(WebsocketHandler):
 
         data = json.loads(message)
 
+        if data["type"] == "ping":
+            session.send(json.dumps({"pong": data}))
+            return
+
         if data["type"] == "move":
             mouse.move(float(data['x']) * WIDTH, float(data['y']) * HEIGHT)
 
