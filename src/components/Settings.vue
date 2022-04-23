@@ -167,7 +167,7 @@ onMounted(()=>{
   })
   ws.addEventListener('message', (e)=>{
     let cloudData = JSON.parse(e.data)
-    if (cloudData.settings) {
+    if (cloudData.setting) {
       console.log(cloudData)
       try {
         let cloudSetting = JSON.parse(cloudData.setting)

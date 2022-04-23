@@ -38,3 +38,5 @@ server/**/__pycache__
 server/**/build
 server/**/dist
 /build/*
+
+.releases
