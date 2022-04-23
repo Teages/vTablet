@@ -3,14 +3,45 @@ from ctypes import CDLL, c_uint64, c_char, c_double, c_ushort, windll
 import mouse
 import json
 import sys
-import pyautogui
 import os.path
 from simple_http_server import WebsocketHandler, WebsocketRequest, WebsocketSession, websocket_handler, request_map, Headers
 import simple_http_server.server as server
 
+from win32api import GetSystemMetrics
+from win32con import SM_CMONITORS, SM_CXSCREEN, SM_CYSCREEN, SM_CXVIRTUALSCREEN, SM_CYVIRTUALSCREEN, SM_XVIRTUALSCREEN, SM_YVIRTUALSCREEN
+class Screen():
+    size = (0, 0)  # (width, height)
+    position = (0, 0)  # (x, y)
+    v_size = (0, 0)  # (width, height) for the visual screen
+
+    def __init__(self, size, position, v_size):
+        self.size = size
+        self.position = position
+        self.v_size = v_size
+    def v_to_screen_pos_digi(self, v_x, v_y):
+        def resize(pos, size_a, offset, size_b):
+            return ((pos / 32767) / size_a * size_b + offset / size_a) * 32767
+        return (
+            int(resize(v_x, self.v_size[0], self.position[0], self.size[0])),
+            int(resize(v_y, self.v_size[1], self.position[1], self.size[1]))
+        )
+
+    def __str__(self):
+        return "Screen <size:{}, position:{}, v_size:{}>".format(self.size, self.position, self.v_size)
+
+def get_main_screen():
+    # monitor_number = GetSystemMetrics(SM_CMONITORS)
+    main_screen_size = (GetSystemMetrics(0), GetSystemMetrics(1))  # 主屏幕宽, 高
+    main_screen_pos = (0 - GetSystemMetrics(SM_XVIRTUALSCREEN), 0 - GetSystemMetrics(SM_YVIRTUALSCREEN))  # 主屏幕宽, 高
+    v_screen_size = (GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN))
+
+    return Screen(main_screen_size, main_screen_pos, v_screen_size)
+
+SCREEN = get_main_screen()
+
 DATA_PATH = os.path.split(os.path.realpath(__file__))[0]
 CLIENT_FILE = os.path.join(DATA_PATH, "index.html")
-WIDTH, HEIGHT = pyautogui.size()
+WIDTH, HEIGHT = SCREEN.size
 SETTING_FILE = "settings.json"
 
 try: 
@@ -44,6 +75,7 @@ class VMulti:
     def update_digi(self, x, y, p, b):
         if not self.is_connected():
             return False
+        x, y = SCREEN.v_to_screen_pos_digi(x, y)
         VMULTI_DLL.vMulti_updateDigi(c_uint64(self.controller), c_ushort(x), c_ushort(y), c_double(p), c_char(b))
     def is_connected(self):
         return VMULTI_DLL.vMulti_isOpened(c_uint64(self.controller))
