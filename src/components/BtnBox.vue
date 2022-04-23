@@ -4,7 +4,7 @@
       type="button"
       v-if="settings.data.settingBtn"
       @click="settings.dialog = !settings.dialog"
-      class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      class="text-white bg-gray-700 hover:bg-gray-600 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2"
     >
       <svg style="width:24px;height:24px" viewBox="0 0 24 24">
         <path
@@ -17,7 +17,7 @@
       type="button"
       v-if="settings.data.fullScreenBtn && !isFullscreen"
       @click="enter"
-      class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      class="text-white bg-gray-700 hover:bg-gray-600 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2"
     >
       <svg style="width:24px;height:24px" viewBox="0 0 24 24">
         <path
@@ -30,7 +30,7 @@
       type="button"
       v-if="settings.data.exitFullScreenBtn && isFullscreen"
       @click="exit"
-      class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      class="text-white bg-gray-700 hover:bg-gray-600 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2"
     >
       <svg style="width:24px;height:24px" viewBox="0 0 24 24">
         <path
