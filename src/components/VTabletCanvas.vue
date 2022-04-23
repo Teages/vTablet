@@ -76,8 +76,7 @@ onMounted(() => {
   let ws = new WebSocket(`ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
   ws.addEventListener('close', (e) => {
     if (settings.data.autoReload) {
-      alert("连接丢失, 需要刷新.")
-      console.error("连接丢失, 需要刷新.")
+      // alert("连接丢失, 需要刷新.")
       location.reload();
     }
   })
