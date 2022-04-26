@@ -28,6 +28,7 @@ export default {
   otherSettingsTitle: "其他设置",
   autoReload: "丢失链接后自动刷新",
   doNotSleep: "禁止平板睡眠",
+  alwaysPing: "在控制界面显示延迟",
   blockClick: "屏蔽点击输入",
   handlePressure: "处理压力",
   vMultiHit: "仅支持 Windows, 需要安装驱动",

@@ -93,6 +93,7 @@
               
               <SettingBlock :title="$t(lang, 'otherSettingsTitle')">
                 <SettingSwitch :title="$t(lang, 'autoReload')" v-model="settings.data.autoReload" />
+                <SettingSwitch :title="$t(lang, 'alwaysPing')" v-model="settings.data.alwaysPing" />
                 <SettingSwitch :title="$t(lang, 'doNotSleep')" v-model="settings.data.doNotSleep" />
                 <SettingSwitch :title="$t(lang, 'blockClick')" v-model="settings.data.blockClick" />
                 <SettingSwitch :title="$t(lang, 'handlePressure')" v-model="settings.data.pressure" />
@@ -159,7 +160,7 @@ onMounted(()=>{
   ws = new WebSocket(`ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
 
   const pingPerSecond = () => {
-    if (settings.dialog) {
+    if (settings.dialog || settings.data.alwaysPing) {
       ping()
     }
     setTimeout(pingPerSecond, 1000);
@@ -229,7 +230,8 @@ function ping() {
   }))
 }
 function pong(time) {
-  wsDelay.value = (new Date()).getTime() % 2147483647 - time
+  wsDelay.value = Math.round(((new Date()).getTime() % 2147483647 - time) / 2)
+  settings.ping = wsDelay.value
 }
 function getDelayColor() {
   let delay = wsDelay.value

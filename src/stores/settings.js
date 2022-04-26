@@ -6,7 +6,8 @@ export const useSettingStore = defineStore('settings', {
   state: () => {
     return { 
       data: useLocalStorage('settings', getDefaultSetting()),
-      dialog: true
+      dialog: true,
+      ping: -1
     }
   },
   actions: {
@@ -49,5 +50,6 @@ function getDefaultSetting() {
     pressure: true,
     autoReload: true,
     doNotSleep: false,
+    alwaysPing: false,
   }
 }

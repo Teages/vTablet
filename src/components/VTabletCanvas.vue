@@ -1,7 +1,17 @@
 <template>
   <div class="h-screen w-screen overflow-visible select-none touch-none bg-black">
     <div id="box" :style="boxCSS">
-      <div id="aria" :style="ariaCSS">
+      <div id="aria" :style="ariaCSS" class=" hover:opacity-80">
+      </div>
+    </div>
+  </div>
+  <div v-if="settings.data.alwaysPing" class="fixed bottom-8 left-4">
+    <div class="flex-none select-none mx-5" style="opacity: 0.3">
+      <div :class="'badge gap-2 ' + getDelayColor()">
+        <svg style="width:12px;height:12px" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M1,21H21V1" />
+        </svg>
+        {{ settings.ping }} ms
       </div>
     </div>
   </div>
@@ -61,8 +71,9 @@ const ariaCSS = computed(() => {
   return {
     width: `${ariaWidth.value}px`,
     height: `${ariaHeight.value}px`,
-    background: settings.data.theme.ariaBackground,
-    opacity: (settings.data.theme.hideCAria && !settings.dialog) ? '0' : '1'
+    background: (settings.data.theme.hideCAria && !settings.dialog) ? '#00000000' : settings.data.theme.ariaBackground,
+    // background: settings.data.theme.ariaBackground,
+    // opacity: (settings.data.theme.hideCAria && !settings.dialog) ? '0' : '1'
   }
 })
 
@@ -215,5 +226,17 @@ function syncServerData(times = 5) {
     }
   }
   xhr.send()
+}
+
+function getDelayColor() {
+  let delay = settings.ping
+  if (delay > 200 || delay < 0) {
+    return 'badge-error'
+  }
+  if (delay > 30) {
+    return 'badge-warning'
+  }
+  return 'badge-success'
+
 }
 </script>
