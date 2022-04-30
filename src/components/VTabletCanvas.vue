@@ -83,8 +83,8 @@ onMounted(() => {
   window.addEventListener('resize', () => resize)
   window.onresize = resize
 
-  console.log("connecting:", `ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
-  let ws = new WebSocket(`ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
+  console.log("connecting:", `ws://${settings.wsLink}/ws`)
+  let ws = new WebSocket(`ws://${settings.wsLink}/ws`)
   ws.addEventListener('close', (e) => {
     if (settings.data.autoReload) {
       // alert("连接丢失, 需要刷新.")
@@ -208,7 +208,7 @@ function resize() {
   screen.value.width = window.innerWidth
 }
 function syncServerData(times = 5) {
-  let serverUrl = import.meta.env.PROD ? window.location.host : 'localhost:8888'
+  let serverUrl = settings.wsLink
   let xhr = new XMLHttpRequest();
   xhr.open('GET', `http://${serverUrl}/server-data`, false)
   xhr.onload = function() {

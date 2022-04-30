@@ -7,7 +7,8 @@ export const useSettingStore = defineStore('settings', {
     return { 
       data: useLocalStorage('settings', getDefaultSetting()),
       dialog: true,
-      ping: -1
+      ping: -1,
+      wsLink: import.meta.env.PROD ? window.location.host : 'localhost:8888'
     }
   },
   actions: {

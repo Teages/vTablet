@@ -156,8 +156,8 @@ onMounted(()=>{
   userLanguages = navigator.languages
   console.log(userLanguages, lang.value)
 
-  console.log("connecting:", `ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
-  ws = new WebSocket(`ws://${import.meta.env.PROD ? window.location.host : 'localhost:8888'}/ws`)
+  console.log("connecting:", `ws://${settings.wsLink}/ws`)
+  ws = new WebSocket(`ws://${settings.wsLink}/ws`)
 
   const pingPerSecond = () => {
     if (settings.dialog || settings.data.alwaysPing) {
