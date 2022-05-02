@@ -1,5 +1,5 @@
 # coding=utf-8
-from ctypes import CDLL, c_uint64, c_char, c_double, c_ushort, windll
+from ctypes import CDLL, c_uint32, c_uint64, c_long
 import mouse
 import json
 import sys
@@ -8,7 +8,7 @@ from simple_http_server import WebsocketHandler, WebsocketRequest, WebsocketSess
 import simple_http_server.server as server
 
 from win32api import GetSystemMetrics
-from win32con import SM_CMONITORS, SM_CXSCREEN, SM_CYSCREEN, SM_CXVIRTUALSCREEN, SM_CYVIRTUALSCREEN, SM_XVIRTUALSCREEN, SM_YVIRTUALSCREEN
+from win32con import SM_CXVIRTUALSCREEN, SM_CYVIRTUALSCREEN, SM_XVIRTUALSCREEN, SM_YVIRTUALSCREEN
 class Screen():
     size = (0, 0)  # (width, height)
     position = (0, 0)  # (x, y)
@@ -19,8 +19,8 @@ class Screen():
         self.position = position
         self.v_size = v_size
     def v_to_screen_pos_digi(self, v_x, v_y):
-        def resize(pos, size_a, offset, size_b):
-            return ((pos / 32767) / size_a * size_b + offset / size_a) * 32767
+        def resize(pos, v_size, offset, size):
+            return (pos / 32767) * size + offset
         return (
             int(resize(v_x, self.v_size[0], self.position[0], self.size[0])),
             int(resize(v_y, self.v_size[1], self.position[1], self.size[1]))
@@ -45,7 +45,7 @@ WIDTH, HEIGHT = SCREEN.size
 SETTING_FILE = "settings.json"
 
 try: 
-    VMULTI_DLL = CDLL(os.path.join(DATA_PATH, 'vTabletDriverDll.dll'))
+    VMULTI_DLL = CDLL(os.path.join(DATA_PATH, 'vTabletDll.dll'))
 except:
     VMULTI_DLL = None
 
@@ -65,20 +65,19 @@ def log(msg, type="info"):
 class VMulti:
     def __init__(self):
         try:
-            VMULTI_DLL.vMulti_connect.restype = c_uint64
-            self.controller = VMULTI_DLL.vMulti_connect()
-            print('\n')
-            log("Connected to vMulti: {}.".format(self.controller))
+            VMULTI_DLL.setupDigi.restype = c_uint64
+            self.controller = VMULTI_DLL.setupDigi()
+            log("Connected to vTablet: {}.".format(self.controller))
         except:
-            log('no vMulti devices', "error")
+            log('Failed to run vTablet', "error")
             pass
-    def update_digi(self, x, y, p, b):
+    def update_digi(self, x, y, p):
         if not self.is_connected():
             return False
         x, y = SCREEN.v_to_screen_pos_digi(x, y)
-        VMULTI_DLL.vMulti_updateDigi(c_uint64(self.controller), c_ushort(x), c_ushort(y), c_double(p), c_char(b))
+        VMULTI_DLL.updateDigi(c_uint64(self.controller), c_long(x), c_long(y), c_uint32(int(p * 1024)))
     def is_connected(self):
-        return VMULTI_DLL.vMulti_isOpened(c_uint64(self.controller))
+        return True
 
 vmulti = VMulti()
 
@@ -164,7 +163,7 @@ class WSHandler(WebsocketHandler):
             pressure = data['pressure']
             bottom = data['bottom']
             log("x: {0}, y: {1}, pressure: {2}, b: {3}".format(x, y, pressure, bottom), "debug")
-            is_success = vmulti.update_digi(x, y, pressure, bottom)
+            is_success = vmulti.update_digi(x, y, pressure)
 
         elif data["type"] == "save_setting":
             save_setting(data["setting"])
