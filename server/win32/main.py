@@ -139,8 +139,8 @@ class WSHandler(WebsocketHandler):
         # log(reason)
 
     def on_text_message(self, session: WebsocketSession, message: str):
-        # log(">> Got text message: ")
-        # log(message)
+        log(">> Got text message: ")
+        log(message)
 
         data = json.loads(message)
 
@@ -161,8 +161,7 @@ class WSHandler(WebsocketHandler):
             x = data['x']
             y = data['y']
             pressure = data['pressure']
-            bottom = data['bottom']
-            log("x: {0}, y: {1}, pressure: {2}, b: {3}".format(x, y, pressure, bottom), "debug")
+            log("x: {0}, y: {1}, pressure: {2}".format(x, y, pressure), "debug")
             is_success = vmulti.update_digi(x, y, pressure)
 
         elif data["type"] == "save_setting":
