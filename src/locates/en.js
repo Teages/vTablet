@@ -31,7 +31,8 @@ export default {
   alwaysPing: "Always ping",
   blockClick: "Disable click",
   handlePressure: "Handle pressure data",
-  vMultiHit: "Support Windows only, need to install vMulti driver",
+  vMultiHit: "Support Windows only",
+  rawInput: "Raw Input",
 
   infoTitle: "Software Info",
   selectLang: "Select Languages",
