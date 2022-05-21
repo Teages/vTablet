@@ -77,6 +77,9 @@ const ariaCSS = computed(() => {
   }
 })
 
+let firefoxPenLastTime = 0
+const firefoxPenLimit = 1000/30
+
 onMounted(() => {
   syncServerData()
   resize()
@@ -95,7 +98,16 @@ onMounted(() => {
 
   let box = document.getElementById('box')
   let aria = document.getElementById('aria')
-  box.addEventListener('pointermove', e => pointerEventHandle(e, ws))
+  box.addEventListener('pointermove', e => {
+    if (!settings.data.rawInput) {
+      pointerEventHandle(e, ws)
+    }
+  })
+  box.addEventListener('pointerrawupdate', e => {
+    if (settings.data.rawInput) {
+      pointerEventHandle(e, ws)
+    }
+  })
   aria.addEventListener('pointerdown', e => pointerDown(e, ws))
   box.addEventListener('pointerup', e => pointerUp(e, ws))
 })
@@ -139,6 +151,33 @@ function pointerEventHandle(event, ws) {
     y = newY + 0.5
   }
   // console.log(x, y)
+  if (settings.data.pressureFireFox == true && settings.data.pressure == true) {
+    // console.log(event)
+    let type = event.pointerType.toLowerCase()
+    if (type == 'mouse') {
+      firefoxPenLastTime = Date.now()
+      sendMsg({
+        type: 'digi',
+        x: Math.round(x * 32767),
+        y: Math.round(y * 32767),
+        pressure: event.pressure,
+        bottom: event.pressure > 0 ? 0x21 : 0x20
+      }, ws)
+    } else if (type == 'touch') {
+      console.log(firefoxPenLastTime, firefoxPenLimit, firefoxPenLastTime + firefoxPenLimit - Date.now(), (firefoxPenLastTime + firefoxPenLimit) > Date.now())
+      if ((firefoxPenLastTime + firefoxPenLimit) > Date.now()) {
+        firefoxPenLastTime = Date.now()
+        sendMsg({
+          type: 'digi',
+          x: Math.round(x * 32767),
+          y: Math.round(y * 32767),
+          pressure: event.pressure,
+          bottom: event.pressure > 0 ? 0x21 : 0x20
+        }, ws)
+      }
+    }
+    return
+  }
   if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
     sendMsg({
       type: 'digi',
@@ -160,6 +199,9 @@ function pointerDown(event, ws) {
   if (!preCheck(event)) {
     return
   }
+  if ((settings.data.pressureFireFox == true && settings.data.pressure == true)) {
+    return
+  }
   if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
     return
   }
@@ -173,6 +215,9 @@ function pointerDown(event, ws) {
 }
 function pointerUp(event, ws) {
   if (!preCheck(event)) {
+    return
+  }
+  if ((settings.data.pressureFireFox == true && settings.data.pressure == true)) {
     return
   }
   if (event.pointerType.toLowerCase() == 'pen' && settings.data.pressure == true) {
@@ -192,6 +237,9 @@ function sendMsg(msgObj, ws) {
 }
 function preCheck(event) {
   let type = event.pointerType.toLowerCase()
+  if (settings.data.pressureFireFox == true && settings.data.pressure == true) {
+    return true
+  } 
   if (type == 'pen' && settings.data.disablePenInput) {
     return false
   }

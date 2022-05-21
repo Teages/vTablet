@@ -31,7 +31,10 @@ export default {
   alwaysPing: "在控制界面显示延迟",
   blockClick: "屏蔽点击输入",
   handlePressure: "处理压力",
-  vMultiHit: "仅支持 Windows, 需要安装驱动",
+  vMultiHit: "仅支持 Windows",
+  rawInput: "处理原始输入",
+  handlePressureFirefox: "启用对 Firefox 的压力支持",
+  handlePressureFirefoxHit: "启用后只会读取笔的输入",
 
   infoTitle: "软件信息",
   selectLang: "选择语言 (Languages)",

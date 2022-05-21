@@ -49,6 +49,8 @@ function getDefaultSetting() {
     settingBtn: true,
     blockClick: false,
     pressure: true,
+    pressureFireFox: false,
+    rawInput: true,
     autoReload: true,
     doNotSleep: false,
     alwaysPing: false,
