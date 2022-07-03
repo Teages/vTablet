@@ -31,8 +31,8 @@ class Screen():
 
 def get_main_screen():
     # monitor_number = GetSystemMetrics(SM_CMONITORS)
-    main_screen_size = (GetSystemMetrics(0), GetSystemMetrics(1))  # 主屏幕宽, 高
-    main_screen_pos = (0 - GetSystemMetrics(SM_XVIRTUALSCREEN), 0 - GetSystemMetrics(SM_YVIRTUALSCREEN))  # 主屏幕宽, 高
+    main_screen_size = (GetSystemMetrics(0), GetSystemMetrics(1))  # main screen width, height
+    main_screen_pos = (0 - GetSystemMetrics(SM_XVIRTUALSCREEN), 0 - GetSystemMetrics(SM_YVIRTUALSCREEN))  # main screen width, height
     v_screen_size = (GetSystemMetrics(SM_CXVIRTUALSCREEN), GetSystemMetrics(SM_CYVIRTUALSCREEN))
 
     return Screen(main_screen_size, main_screen_pos, v_screen_size)
@@ -135,11 +135,11 @@ class WSHandler(WebsocketHandler):
         # log(session.request.path_values)
 
     def on_close(self, session: WebsocketSession, reason: str):
-        log(">> Closeed Connect::")
+        log(">> Closed Connect::")
         # log(reason)
 
     def on_text_message(self, session: WebsocketSession, message: str):
-        log(">> Got text message: ")
+        log(">> Got text message: ", "debug")
         log(message)
 
         data = json.loads(message)
