@@ -14,10 +14,8 @@ import 'package:vtablet/web.dart';
 import 'package:wakelock/wakelock.dart';
 
 void main() {
-  () {
-    ConfigManager.initManager();
-    runApp(const VTabletApp());
-  }();
+  runApp(const VTabletApp());
+  ConfigManager.initManager();
 }
 
 class VTabletApp extends StatelessWidget {
