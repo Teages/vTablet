@@ -1,7 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unused_field, todo, prefer_const_literals_to_create_immutables
-
 import 'dart:developer' as developer;
-import 'dart:io';
 import 'package:mdi/mdi.dart';
 
 import 'package:flutter/material.dart';
@@ -88,7 +85,7 @@ class _SettingPageState extends State<SettingPage> {
                       return TextField(
                         controller: hostInpuutController,
                         autofocus: false,
-                        decoration: InputDecoration(labelText: 'Server'),
+                        decoration: const InputDecoration(labelText: 'Server'),
                         readOnly: isConnected,
                         onChanged: (String value) {
                           setState(() {
@@ -232,7 +229,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Enable pen input'),
+                      const Text('Enable pen input'),
                       Switch(
                           value:
                               ConfigManager.getConfig("input.enable.pen", true),
@@ -246,7 +243,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Enable mouse input'),
+                      const Text('Enable mouse input'),
                       Switch(
                           value: ConfigManager.getConfig(
                               "input.enable.mouse", false),
@@ -260,7 +257,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Enable touch input'),
+                      const Text('Enable touch input'),
                       Switch(
                           value: ConfigManager.getConfig(
                               "input.enable.touch", false),
@@ -274,7 +271,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Ignore click'),
+                      const Text('Ignore click'),
                       Switch(
                           value: ConfigManager.getConfig(
                               "input.ignoreClick", true),
@@ -291,7 +288,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Pure background'),
+                      const Text('Pure background'),
                       Switch(
                           value: ConfigManager.getConfig(
                               "ui.pureBackground", false),
@@ -305,7 +302,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Show delay'),
+                      const Text('Show delay'),
                       Switch(
                           value: ConfigManager.getConfig("ui.showDelay", true),
                           onChanged: (bool on) {
@@ -318,7 +315,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Background'),
+                      const Text('Background'),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Theme.of(context).primaryColor,
@@ -337,7 +334,7 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Prevent sleep'),
+                      const Text('Prevent sleep'),
                       Switch(
                           value: ConfigManager.getConfig(
                               "other.preventSleep", true),
@@ -351,8 +348,8 @@ class _SettingPageState extends State<SettingPage> {
                 ]),
                 // About
                 ...SettingCard('About', <Widget>[
-                  Text('v2.0.0 (rc.1) - Copyright (c) 2022 Teages'),
-                  SizedBox(
+                  const Text('v2.0.0 (rc.1) - Copyright (c) 2022 Teages'),
+                  const SizedBox(
                     height: 35,
                   ),
                   ElevatedButton.icon(
@@ -364,7 +361,7 @@ class _SettingPageState extends State<SettingPage> {
                       launchUrlString('https://github.com/Teages/vTablet',
                           mode: LaunchMode.externalApplication);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Mdi.github,
                       color: Colors.white,
                     ),
@@ -383,7 +380,7 @@ class _SettingPageState extends State<SettingPage> {
         valueListenable: VTabletWS.isConnected,
         builder: (context, value, child) {
           return FloatingActionButton.extended(
-            onPressed: VTabletWS.isConnected.value || true
+            onPressed: VTabletWS.isConnected.value
                 ? () {
                     Wakelock.toggle(
                         enable: ConfigManager.getConfig(

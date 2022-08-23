@@ -1,6 +1,6 @@
 {
-    "name": "vtablet",
-    "short_name": "vtablet",
+    "name": "vTablet",
+    "short_name": "vTablet",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

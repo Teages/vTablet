@@ -9,6 +9,7 @@ import 'package:wakelock/wakelock.dart';
 import 'package:vtablet/storage.dart';
 import 'package:vtablet/web.dart';
 
+// ignore: must_be_immutable
 class VTabletPage extends StatelessWidget {
   final GlobalKey boxKey = GlobalKey();
   final GlobalKey ariaKey = GlobalKey();

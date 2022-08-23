@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vtablet/web.dart';
 
 class DelayDialog extends Container {
@@ -21,7 +20,7 @@ class DelayDialog extends Container {
             ));
   static Color getSignalColor(delay) {
     if (delay > 40 || delay < 0) {
-      return Color.fromARGB(255, 249, 142, 142);
+      return const Color.fromARGB(255, 249, 142, 142);
     }
     if (delay > 20) {
       return Colors.yellowAccent;
