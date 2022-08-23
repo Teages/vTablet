@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "type": "shell",
+  "cwd": "${workspaceFolder}",
+  "tasks": [
+    {
+      "label": "build & run",
+      "command": "bin/build.bat; bin/run.bat",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "install",
+      "command": "go",
+      "args": [
+        "install",
+        "-v",
+        "./..."
+      ],
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "build",
+      "command": "bin/build.bat",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ],
+}
