@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "xyz.teages.vtablet",
+      "sha256_cert_fingerprints": [
+        "7B:5D:BC:EA:9C:AB:55:E5:C5:78:24:4D:52:84:E3:B2:F0:D7:10:DE:4B:B0:DC:DE:0C:25:77:7F:E3:89:22:59"
+      ]
+    }
+  }
+]
