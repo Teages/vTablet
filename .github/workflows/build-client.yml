@@ -1,0 +1,71 @@
+name: Build Flutter Client (Android)
+
+on: 
+  # pull:
+  #   branches: [main]
+  workflow_dispatch:
+
+jobs:
+  Build-Client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.5'
+      - run: flutter pub get
+
+      # Build Android
+      - run: flutter build apk
+      - run: flutter build appbundle
+
+      # Sign Android
+      - uses: r0adkll/sign-android-release@v1
+        name: Sign app APK
+        id: sign_apk
+        with:
+          releaseDirectory: client/build/app/outputs/flutter-apk
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "30.0.2"
+      # - uses: r0adkll/sign-android-release@v1
+      #   name: Sign app AAB
+      #   # ID used to access action output
+      #   id: sign_aab
+      #   with:
+      #     releaseDirectory: client/build/app/outputs/bundle/release
+      #     signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+      #     alias: ${{ secrets.ALIAS }}
+      #     keyStorePassword: ${{ secrets.KEY_PASSWORD }}
+      #     keyPassword: ${{ secrets.KEY_PASSWORD }}
+      #   env:
+      #     BUILD_TOOLS_VERSION: "30.0.2"
+      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vTablet_client_apk
+          path: client/build/app/outputs/flutter-apk/app-release.apk
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vTablet_client_aab
+          path: client/build/app/outputs/bundle/release/app-release.aab
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: vTablet_client_apk_signed
+          path: ${{steps.sign_apk.outputs.signedReleaseFile}}
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: vTablet_client_aab_signed
+      #     path: ${{steps.sign_aab.outputs.signedReleaseFile}}
+

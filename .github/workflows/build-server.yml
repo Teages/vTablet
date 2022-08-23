@@ -1,0 +1,49 @@
+name: Build Golang Server
+
+on: 
+  # pull:
+  #   branches: [main]
+  workflow_dispatch:
+
+jobs:
+  Build-Server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        uses: crazy-max/ghaction-xgo@v2
+        with:
+          xgo_version: latest
+          go_version: 1.19
+          dest: build
+          prefix: vtablet
+          targets: windows/amd64,windows/386
+          # targets: windows/amd64,windows/386,linux/amd64,darwin/amd64,darwin/arm64
+          v: true
+          x: false
+          race: false
+          ldflags: -H=windowsgui
+          buildmode: default
+          trimpath: true
+          working_dir: ./server
+
+      - run: mkdir -p server/dist/windows-386/libs/
+      - run: mkdir -p server/dist/windows-amd64/libs/
+
+      - run: cp -R server/build/vtablet-windows-386.exe server/dist/windows-386/
+      - run: cp -R server/build/vtablet-windows-amd64.exe server/dist/windows-amd64/
+
+      - run: cp -R server/libs/windows/** server/dist/windows-386/libs/
+      - run: cp -R server/libs/windows/** server/dist/windows-amd64/libs/
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vTablet_server_windows_386
+          path: server/dist/windows-386/
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vTablet_server_windows_amd64
+          path: server/dist/windows-amd64/
+
+
