@@ -53,6 +53,8 @@ class _SettingPageState extends State<SettingPage> {
         setState(() {
           StateManager.setConfig("server.host", server);
           hostInpuutController.text = server;
+          // Auto connect
+          VTabletWS.conncet(StateManager.getConfig("server.host", ""));
         });
         developer.log("link: $startUrl");
         // developer.log("link...");
