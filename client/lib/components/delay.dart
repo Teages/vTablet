@@ -22,7 +22,7 @@ class DelayDialog extends Container {
     if (delay > 40 || delay < 0) {
       return const Color.fromARGB(255, 249, 142, 142);
     }
-    if (delay > 20) {
+    if (delay > 15) {
       return Colors.yellowAccent;
     }
     return Colors.greenAccent;

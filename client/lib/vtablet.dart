@@ -17,8 +17,8 @@ class VTabletPage extends StatelessWidget {
   // Aria settings
   double scale = ConfigManager.getConfig("aria.scale", 0.5);
   double ratio = StateManager.getConfig("aria.ratio", 16 / 9);
-  double offsetX = ConfigManager.getConfig("aria.offset.x", 0.5);
-  double offsetY = ConfigManager.getConfig("aria.offset.y", 0.5);
+  double offsetX = ConfigManager.getConfig("aria.offset.x", 0);
+  double offsetY = ConfigManager.getConfig("aria.offset.y", 0);
 
   // Input settings
   bool enableMouse = ConfigManager.getConfig("input.enable.mouse", false);
@@ -169,6 +169,7 @@ class VTabletPage extends StatelessWidget {
                 widthFactor: scale,
                 heightFactor: scale,
                 child: Container(
+                  color: Color.fromARGB(40, 244, 67, 54),
                   alignment: Alignment(offsetX, offsetY),
                   child: AspectRatio(
                     aspectRatio: ratio,
