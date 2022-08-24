@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vtablet/components/delay.dart';
+import 'package:vtablet/components/fullscreen_interface.dart';
 import 'package:vtablet/storage.dart';
 import 'package:vtablet/vtablet.dart';
 import 'package:vtablet/web.dart';
@@ -391,6 +392,7 @@ class _SettingPageState extends State<SettingPage> {
                         builder: (context) => VTabletPage(),
                       ),
                     );
+                    FullscreenManager().enter();
                   }
                 : null,
             label: const Text('Start'),

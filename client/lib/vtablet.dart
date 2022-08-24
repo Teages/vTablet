@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:vtablet/components/delay.dart';
 
 import 'dart:developer' as developer;
 
@@ -8,6 +7,8 @@ import 'package:wakelock/wakelock.dart';
 
 import 'package:vtablet/storage.dart';
 import 'package:vtablet/web.dart';
+import 'package:vtablet/components/delay.dart';
+import 'package:vtablet/components/fullscreen_interface.dart';
 
 // ignore: must_be_immutable
 class VTabletPage extends StatelessWidget {
@@ -17,8 +18,8 @@ class VTabletPage extends StatelessWidget {
   // Aria settings
   double scale = ConfigManager.getConfig("aria.scale", 0.5);
   double ratio = StateManager.getConfig("aria.ratio", 16 / 9);
-  double offsetX = ConfigManager.getConfig("aria.offset.x", 0);
-  double offsetY = ConfigManager.getConfig("aria.offset.y", 0);
+  double offsetX = ConfigManager.getConfig("aria.offset.x", 0.0);
+  double offsetY = ConfigManager.getConfig("aria.offset.y", 0.0);
 
   // Input settings
   bool enableMouse = ConfigManager.getConfig("input.enable.mouse", false);
@@ -169,7 +170,7 @@ class VTabletPage extends StatelessWidget {
                 widthFactor: scale,
                 heightFactor: scale,
                 child: Container(
-                  color: Color.fromARGB(40, 244, 67, 54),
+                  // color: Color.fromARGB(40, 244, 67, 54), // Debug
                   alignment: Alignment(offsetX, offsetY),
                   child: AspectRatio(
                     aspectRatio: ratio,
@@ -192,5 +193,7 @@ class VTabletPage extends StatelessWidget {
   void readyExit() {
     VTabletWS.autoPing = true;
     Wakelock.disable();
+
+    FullscreenManager().exit();
   }
 }
