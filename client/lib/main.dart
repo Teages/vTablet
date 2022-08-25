@@ -433,8 +433,4 @@ class _SettingPageState extends State<SettingPage> {
       ),
     ];
   }
-
-  Widget showWidget(bool b, Widget w) {
-    return b ? w : Container();
-  }
 }
