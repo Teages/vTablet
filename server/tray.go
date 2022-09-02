@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"runtime"
 
-	"github.com/emersion/go-autostart"
+	"github.com/Teages/go-autostart"
 	"github.com/getlantern/systray"
 )
 

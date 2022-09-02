@@ -4,102 +4,46 @@ on:
   # pull:
   #   branches: [main]
   workflow_dispatch:
-  release:
 
 jobs:
-  # release-linux-386:
-  #   name: release linux/386
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: compile and release
-  #     uses: ngs/go-release.action@v1.0.1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       GOARCH: "386"
-  #       GOOS: linux
-  #       EXTRA_FILES: "LICENSE"
-  # release-linux-amd64:
-  #   name: release linux/amd64
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: compile and release
-  #     uses: ngs/go-release.action@v1.0.1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       GOARCH: amd64
-  #       GOOS: linux
-  #       EXTRA_FILES: "LICENSE"
-  # release-linux-arm:
-  #   name: release linux/386
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: compile and release
-  #     uses: ngs/go-release.action@v1.0.1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       GOARCH: "arm"
-  #       GOOS: linux
-  #       EXTRA_FILES: "LICENSE"
-  # release-linux-arm64:
-  #   name: release linux/amd64
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: compile and release
-  #     uses: ngs/go-release.action@v1.0.1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       GOARCH: arm64
-  #       GOOS: linux
-  #       EXTRA_FILES: "LICENSE"
-  # release-darwin-amd64:
-  #   name: release darwin/amd64
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: compile and release
-  #     uses: ngs/go-release.action@v1.0.1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       GOARCH: amd64
-  #       GOOS: darwin
-  #       EXTRA_FILES: "LICENSE"
-  # release-darwin-arm64:
-  #   name: release darwin/arm64
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: compile and release
-  #     uses: ngs/go-release.action@v1.0.1
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       GOARCH: arm64
-  #       GOOS: darwin
-  #       EXTRA_FILES: "LICENSE"
-  release-windows-386:
-    name: release windows/386
+  Build-Server:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: compile and release
-      uses: ngs/go-release.action@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GOARCH: "386"
-        GOOS: windows
-        EXTRA_FILES: "LICENSE"
-  release-windows-amd64:
-    name: release windows/amd64
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: compile and release
-      uses: ngs/go-release.action@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GOARCH: amd64
-        GOOS: windows
-        EXTRA_FILES: "LICENSE"
+      - uses: actions/checkout@v3
+      - name: Build
+        uses: crazy-max/ghaction-xgo@v2
+        with:
+          xgo_version: latest
+          go_version: 1.19
+          dest: build
+          prefix: vtablet
+          targets: windows/amd64,windows/386
+          # targets: windows/amd64,windows/386,linux/amd64,darwin/amd64,darwin/arm64
+          v: true
+          x: true
+          race: false
+          ldflags: -H=windowsgui
+          buildmode: default
+          trimpath: true
+          working_dir: ./server
+
+      - run: mkdir -p server/dist/windows-386/libs/
+      - run: mkdir -p server/dist/windows-amd64/libs/
+
+      - run: cp -R server/build/vtablet-windows-386.exe server/dist/windows-386/
+      - run: cp -R server/build/vtablet-windows-amd64.exe server/dist/windows-amd64/
+
+      - run: cp -R server/libs/windows/** server/dist/windows-386/libs/
+      - run: cp -R server/libs/windows/** server/dist/windows-amd64/libs/
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vTablet_server_windows_386
+          path: server/dist/windows-386/
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vTablet_server_windows_amd64
+          path: server/dist/windows-amd64/
+
+
