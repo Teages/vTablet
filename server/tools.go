@@ -7,8 +7,13 @@ import (
 	"strings"
 )
 
-func exeDir(path string) string {
+func selfPath() string {
 	exePath, _ := os.Executable()
+	return exePath
+}
+
+func exeDir(path string) string {
+	exePath := selfPath()
 	dir := filepath.Dir(exePath)
 	return dir + "/" + path
 }

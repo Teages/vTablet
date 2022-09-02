@@ -3,5 +3,7 @@ package main
 func main() {
 	go initAdbServices()
 	go initWebServices()
-	initTray()
+	initTray(func() {
+		// onExit
+	})
 }

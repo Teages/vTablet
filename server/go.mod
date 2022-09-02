@@ -55,6 +55,7 @@ require (
 require (
 	fyne.io/fyne/v2 v2.2.3
 	github.com/StackExchange/wmi v1.2.1 // indirect
+	github.com/emersion/go-autostart v0.0.0-20210130080809-00ed301c8e9a
 	github.com/getlantern/systray v1.2.1
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-vgo/robotgo v0.100.10 // indirect

@@ -6,56 +6,63 @@ import (
 	"os/exec"
 	"runtime"
 
+	"github.com/emersion/go-autostart"
 	"github.com/getlantern/systray"
 )
 
-func initTray() {
-	systray.Run(onReady, onExit)
-}
+func initTray(onExit func()) {
+	systray.Run(func() {
+		systray.SetIcon(AppIconData_Disconnected)
+		systray.SetTitle("vTablet")
+		systray.SetTooltip("vTablet")
 
-func onReady() {
-	systray.SetIcon(AppIconData_Disconnected)
-	systray.SetTitle("vTablet")
-	systray.SetTooltip("vTablet")
+		mAbout := systray.AddMenuItem("vTablet v2.0.1", "About")
 
-	mAbout := systray.AddMenuItem("vTablet v2.0.1", "About")
+		go func() {
+			for {
+				<-mAbout.ClickedCh
+				openBrowser("https://github.com/Teages/vTablet")
+			}
+		}()
 
-	go func() {
-		for {
-			<-mAbout.ClickedCh
-			openBrowser("https://github.com/Teages/vTablet")
+		systray.AddSeparator()
+
+		// Start with OS
+		aStartWithOS := &autostart.App{
+			Name:        "vTablet",
+			DisplayName: "Auto start vTablet services",
+			Exec:        []string{selfPath()},
 		}
-	}()
+		mStartWithOS := systray.AddMenuItemCheckbox("Start with OS", "Start with OS", aStartWithOS.IsEnabled())
+		go func() {
+			for {
+				<-mStartWithOS.ClickedCh
+				if aStartWithOS.IsEnabled() {
+					console.Catch(aStartWithOS.Disable())
+					mStartWithOS.Uncheck()
+				} else {
+					console.Catch(aStartWithOS.Enable())
+					mStartWithOS.Check()
+				}
+			}
+		}()
 
-	// systray.AddSeparator()
+		systray.AddSeparator()
 
-	// sStartwithos := systray.AddMenuItemCheckbox("Start with OS", "Start with OS", false)
-	// go func ()  {
-	// 	for {
-	// 		<-sStartwithos.ClickedCh
-	// 		// ...
-	// 	}
-	// }()
+		mAdb := systray.AddMenuItem("Restart ADB", "Restart ADB services")
+		go func() {
+			for {
+				<-mAdb.ClickedCh
+				restartAdbServices()
+			}
+		}()
 
-	systray.AddSeparator()
-
-	mAdb := systray.AddMenuItem("Restart ADB", "Restart ADB services")
-	go func() {
-		for {
-			<-mAdb.ClickedCh
-			restartAdbServices()
-		}
-	}()
-
-	mQuit := systray.AddMenuItem("Quit", "Quit the app")
-	go func() {
-		<-mQuit.ClickedCh
-		systray.Quit()
-	}()
-}
-
-func onExit() {
-	// clean up here
+		mQuit := systray.AddMenuItem("Quit", "Quit the app")
+		go func() {
+			<-mQuit.ClickedCh
+			systray.Quit()
+		}()
+	}, onExit)
 }
 
 func updateConnectState(clientCount int) {
