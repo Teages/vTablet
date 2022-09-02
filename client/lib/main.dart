@@ -351,7 +351,7 @@ class _SettingPageState extends State<SettingPage> {
                 ]),
                 // About
                 ...SettingCard('About', <Widget>[
-                  const Text('v2.0.0 - Copyright (c) 2022 Teages'),
+                  const Text('v2.0.1 - Copyright (c) 2022 Teages'),
                   const SizedBox(
                     height: 35,
                   ),
