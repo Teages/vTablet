@@ -3,10 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 
@@ -16,10 +14,10 @@ import (
 var upgrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
-		origin := strings.ToLower(r.Header.Get("Origin"))
-		allows := "http://localhost:23052\n" + "http://localhost:62448\n" + "https://vtablet.teages.xyz\n" + "http://coolaf.com"
-		console.Log("Connect from: " + origin)
-		return strings.Contains(allows, origin)
+		// origin := strings.ToLower(r.Header.Get("Origin"))
+		// allows := "http://localhost:23052\n" + "http://localhost:62448\n" + "https://vtablet.teages.xyz\n" + "http://coolaf.com"
+		// console.Log("Connect from: " + origin)
+		// return strings.Contains(allows, origin)
 	},
 }
 
@@ -31,7 +29,6 @@ func initWebServices() {
 	flag.Parse()
 	http.HandleFunc("/digi", digiWS)
 	http.HandleFunc("/server", serverData)
-	http.HandleFunc("/settings", settings)
 	http.HandleFunc("/", home)
 
 	addr := flag.String("addr", "0.0.0.0:23052", "http service address")
@@ -49,7 +46,7 @@ func resolve(msg []byte) []byte {
 		x, _ := strconv.ParseInt(data[0], 10, 64)
 		y, _ := strconv.ParseInt(data[1], 10, 64)
 		p, _ := strconv.ParseInt(data[2], 10, 64)
-		updatePointer(x*int64(screenX)/32767, y*int64(screenY)/32767, uint32(p*2048/8192))
+		updatePointer(x*int64(screenWidth)/32767, y*int64(screenHeight)/32767, uint32(p*2048/8192))
 	} else {
 		return msg
 	}
@@ -58,24 +55,26 @@ func resolve(msg []byte) []byte {
 }
 
 func digiWS(w http.ResponseWriter, r *http.Request) {
-	console.Log("dddd")
 	c, err := upgrader.Upgrade(w, r, nil)
 	if console.Catch(err) {
 		return
 	}
 
 	clientCount++
+	updateConnectState(clientCount)
 	defer func() {
 		clientCount--
+		updateConnectState(clientCount)
 		c.Close()
 	}()
+
 	for {
 		t, message, err := c.ReadMessage()
 		if console.Catch(err) {
 			break
 		}
 
-		console.Log("recv: %s", message)
+		// console.Log("recv: %s", message)
 		r := resolve(message)
 		if r != nil {
 			c.WriteMessage(t, r)
@@ -85,26 +84,6 @@ func digiWS(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-	}
-}
-
-// Settings
-func settings(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Access-Control-Allow-Origin", "*")
-	w.Header().Add("Access-Control-Allow-Headers", "*")
-	if r.URL.Path != "/settings" {
-		http.Error(w, "Not found", http.StatusNotFound)
-		return
-	}
-	if r.Method == http.MethodGet {
-		http.ServeFile(w, r, exeDir("settings.json"))
-	} else if r.Method == http.MethodPost {
-		body, err := io.ReadAll(r.Body)
-		if console.Catch(err) {
-			return
-		}
-		err = os.WriteFile(exeDir("settings.json"), body, 0644)
-		console.Catch(err)
 	}
 }
 
@@ -119,7 +98,7 @@ func serverData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Add("Access-Control-Allow-Origin", "*")
-	fmt.Fprintf(w, `{"screen": {"width": %d,"height": %d}}`, screenX, screenY)
+	fmt.Fprintf(w, `{"screen": {"width": %d,"height": %d}}`, screenWidth, screenHeight)
 }
 
 // HOME
@@ -132,5 +111,5 @@ func home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	http.ServeFile(w, r, exeDir("index.html"))
+	http.Redirect(w, r, "https://vtablet.teages.xyz", http.StatusFound)
 }

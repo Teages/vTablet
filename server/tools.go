@@ -5,19 +5,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
-
-	"github.com/kbinani/screenshot"
 )
-
-var (
-	screenX, screenY = getScreenSize()
-)
-
-func getScreenSize() (int, int) {
-	b := screenshot.GetDisplayBounds(0)
-	console.Log("Screen: (%d, %d)", b.Dx(), b.Dy())
-	return b.Dx(), b.Dy()
-}
 
 func exeDir(path string) string {
 	exePath, _ := os.Executable()
