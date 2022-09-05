@@ -1,5 +1,7 @@
 github.com/Teages/go-autostart v0.0.0-20220902154128-6e07ff286975 h1:fJyPPigvnVBwmCsY8I3C9Ag4RsN+dRAqm5uq6fkbMMM=
 github.com/Teages/go-autostart v0.0.0-20220902154128-6e07ff286975/go.mod h1:x1oXrbaZQHmTTE9pLj3LYjefeLkEYY+AAq/RODO9Cfg=
+github.com/Teages/go-vdigi v0.0.1 h1:LH8I5fmlMxb/yMKQ4SeqizUZUkzD5nQr+eNd0F+3Xvw=
+github.com/Teages/go-vdigi v0.0.1/go.mod h1:CcW1KOPtxEeI01v0LZMuCm49/9QJ5uZ6kovVFf68TY8=
 github.com/Teages/go-vfile v0.0.2 h1:u2XOUsMrX9CIWp7s+pfMjlnrv3pUtijHdWxbqnmf+6E=
 github.com/Teages/go-vfile v0.0.2/go.mod h1:LhuEFb4vgmxCu3wzpgy9xNAF/2K+Awigkp+HMW5eXxM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -40,8 +42,8 @@ github.com/zach-klippenstein/goadb v0.0.0-20201208042340-620e0e950ed7/go.mod h1:
 golang.org/x/sys v0.0.0-20190916202348-b4ddaad3f8a3/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20200515095857-1151b9dac4a9/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20201018230417-eeed37f84f13/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
-golang.org/x/sys v0.0.0-20220804214406-8e32c043e418 h1:9vYwv7OjYaky/tlAeD7C4oC9EsPTlaFl1H2jS++V+ME=
-golang.org/x/sys v0.0.0-20220804214406-8e32c043e418/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 h1:v6hYoSR9T5oet+pMXwUWkbiVqx/63mlHjefrHmxwfeY=
+golang.org/x/sys v0.0.0-20220829200755-d48e67d00261/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

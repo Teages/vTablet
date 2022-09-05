@@ -1,24 +1,21 @@
 package main
 
 import (
+	"github.com/Teages/go-vdigi"
 	"github.com/lxn/win"
 )
 
 var (
-	// sum, _        = vdigiDll.FindProc("sum")
-	// destroyDigi, _   = vdigiDll.FindProc("destroyDigi")
-	_setupDigi, _                  = vdigiDll.FindProc("setupDigi")
-	_updateDigi, _                 = vdigiDll.FindProc("updateDigi")
-	_digiDevice, _, _              = _setupDigi.Call()
-	_screenOffsetX, _screenOffsetY = getScreenOffset()
-	screenWidth, screenHeight      = getScreenSize()
+	digiDevice                   = vdigi.CreatePointer()
+	screenOffsetX, screenOffsetY = getScreenOffset()
+	screenWidth, screenHeight    = getScreenSize()
 )
 
-func getScreenOffset() (int64, int64) {
-	return 0 - int64(win.GetSystemMetrics(win.SM_XVIRTUALSCREEN)), int64(0 - win.GetSystemMetrics(win.SM_YVIRTUALSCREEN))
+func getScreenOffset() (int32, int32) {
+	return 0 - win.GetSystemMetrics(win.SM_XVIRTUALSCREEN), 0 - win.GetSystemMetrics(win.SM_YVIRTUALSCREEN)
 }
 
-func getScreenSize() (int64, int64) {
+func getScreenSize() (int32, int32) {
 	width := win.GetSystemMetrics(win.SM_CXVIRTUALSCREEN)
 	height := win.GetSystemMetrics(win.SM_CYVIRTUALSCREEN)
 	console.Log("Screen: (%d, %d)", width, height)
@@ -28,20 +25,11 @@ func getScreenSize() (int64, int64) {
 		return 0
 	}, 0, 0, 0|2)
 
-	return int64(width), int64(height)
+	return width, height
 }
 
-func updatePointer(rawX, rawY int64, pressure uint32) uintptr {
-	// console.Log("%d, %d, %d", rawX, rawY, pressure)
-	if rawX < 0 {
-		rawX = 0
-	}
-	if rawY < 0 {
-		rawY = 0
-	}
-	x := rawX + _screenOffsetX
-	y := rawY + _screenOffsetY
-	// console.Log("%d, %d, %d", x, y, pressure)
-	result, _, _ := _updateDigi.Call(_digiDevice, uintptr(x), uintptr(y), uintptr(pressure))
-	return result
+func updatePointer(rawX, rawY int32, pressure uint32) error {
+	x := rawX + screenOffsetX
+	y := rawY + screenOffsetY
+	return digiDevice.Update(x, y, pressure)
 }

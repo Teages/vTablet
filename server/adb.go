@@ -1,20 +1,12 @@
 package main
 
 import (
-	"embed"
 	"flag"
 
-	"github.com/Teages/go-vfile"
 	adb "github.com/zach-klippenstein/goadb"
 )
 
 var (
-	//go:embed libs/windows/adb/*
-	adbFiles embed.FS
-	adbPath  = func() string {
-		vfile.JoinPart("libs/adb", "libs/windows/adb", adbFiles)
-		return vfile.GetPath("libs/adb/adb")
-	}()
 	adbClient = func() *adb.Adb {
 		a, _ := adb.NewWithConfig(adb.ServerConfig{
 			Port: *flag.Int("p", adb.AdbPort, ""),

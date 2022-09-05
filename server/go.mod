@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/Teages/go-autostart v0.0.0-20220902154128-6e07ff286975
-	golang.org/x/sys v0.0.0-20220804214406-8e32c043e418 // indirect
+	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
 )
 
 require github.com/Teages/go-vfile v0.0.2
@@ -23,6 +23,7 @@ require (
 )
 
 require (
+	github.com/Teages/go-vdigi v0.0.1
 	github.com/getlantern/systray v1.2.1
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/gorilla/websocket v1.5.0

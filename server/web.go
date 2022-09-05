@@ -25,30 +25,31 @@ var (
 	clientCount = 0
 )
 
-func initWebServices() {
+func initWebServices(port int) {
 	flag.Parse()
 	http.HandleFunc("/digi", digiWS)
-	http.HandleFunc("/server", serverData)
+	http.HandleFunc("/screen", screenData)
 	http.HandleFunc("/", home)
 
-	addr := flag.String("addr", "0.0.0.0:23052", "http service address")
+	addr := flag.String("addr", fmt.Sprintf("0.0.0.0:%d", port), "http service address")
 	log.Fatal(http.ListenAndServe(*addr, nil))
 
 }
 
 func resolve(msg []byte) []byte {
+	// Ping: t int64
 	_, err := strconv.ParseInt(string(msg), 10, 64)
-	if err != nil {
-		data := strings.Split(string(msg), ",")
-		if len(data) < 3 {
-			return nil
-		}
-		x, _ := strconv.ParseInt(data[0], 10, 64)
-		y, _ := strconv.ParseInt(data[1], 10, 64)
-		p, _ := strconv.ParseInt(data[2], 10, 64)
-		updatePointer(x*int64(screenWidth)/32767, y*int64(screenHeight)/32767, uint32(p*2048/8192))
-	} else {
+	if err == nil {
 		return msg
+	}
+
+	// Pointerevent: x, y int32, p uint32
+	data := strings.Split(string(msg), ",")
+	if len(data) == 3 {
+		x, _ := strconv.ParseInt(data[0], 10, 32)
+		y, _ := strconv.ParseInt(data[1], 10, 32)
+		p, _ := strconv.ParseInt(data[2], 10, 32)
+		updatePointer(int32(x)*screenWidth/32767, int32(y)*screenHeight/32767, uint32(p*2048/8192))
 	}
 
 	return nil
@@ -87,9 +88,9 @@ func digiWS(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Server Data
-func serverData(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/server" {
+// Screen Data
+func screenData(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/screen" {
 		http.Error(w, "Not found", http.StatusNotFound)
 		return
 	}
