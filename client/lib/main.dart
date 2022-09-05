@@ -383,20 +383,25 @@ class _SettingPageState extends State<SettingPage> {
         valueListenable: VTabletWS.isConnected,
         builder: (context, value, child) {
           return FloatingActionButton.extended(
-            onPressed: VTabletWS.isConnected.value
-                ? () {
-                    Wakelock.toggle(
-                        enable: ConfigManager.getConfig(
-                            "other.preventSleep", true));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VTabletPage(),
-                      ),
-                    );
-                    FullscreenManager().enter();
-                  }
-                : null,
+            onPressed: () {
+              if (VTabletWS.isConnected.value) {
+                Wakelock.toggle(
+                    enable:
+                        ConfigManager.getConfig("other.preventSleep", true));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VTabletPage(),
+                  ),
+                );
+                FullscreenManager().enter();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Please connect first."),
+                  duration: Duration(seconds: 1),
+                ));
+              }
+            },
             label: const Text('Start'),
             icon: const Icon(Icons.play_arrow),
             backgroundColor: VTabletWS.isConnected.value

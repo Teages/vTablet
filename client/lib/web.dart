@@ -27,18 +27,20 @@ class VTabletWS {
       channel = WebSocketChannel.connect(uri);
 
       channel.stream.listen((message) {
+        if (isConnected.value != true) {
+          isConnected.value = true;
+        }
         developer.log(message);
         var value = int.tryParse(message);
         if (value != null) {
           delay.value = (DateTime.now().millisecondsSinceEpoch) + value;
           StateManager.setConfig("delay", delay.value);
-          isConnected.value = true;
           ConfigManager.setConfig("server.last", uristr);
           developer.log(StateManager.getConfig("delay", -1).toString());
         }
       }, onError: disconnectErr, onDone: disconnect);
       Timer(const Duration(milliseconds: 1000), () {
-        isConnected.value = true;
+        // isConnected.value = true;
         ping();
         ping();
         autoPing = true;
@@ -79,9 +81,7 @@ class VTabletWS {
 
   static send(String str) {
     try {
-      if (isConnected.value) {
-        channel.sink.add(str);
-      }
+      channel.sink.add(str);
     } catch (e) {
       disconnect();
       developer.log(e.toString());
