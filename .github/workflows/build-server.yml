@@ -22,10 +22,18 @@ jobs:
           v: true
           x: true
           race: false
-          ldflags: -H=windowsgui
+          ldflags: -H=windowsgui -s -w
           buildmode: default
           trimpath: true
           working_dir: ./server
+          
+      - name: Run UPX
+        uses: crazy-max/ghaction-upx@v2
+        with:
+          version: latest
+          files: |
+            server/build/*.exe
+          args: --best
 
       - uses: actions/upload-artifact@v3
         with:
@@ -36,24 +44,3 @@ jobs:
         with:
           name: vTablet_server_windows_amd64
           path: server/build/vtablet-windows-amd64.exe
-
-      # - run: mkdir -p server/dist/windows-386/libs/
-      # - run: mkdir -p server/dist/windows-amd64/libs/
-
-      # - run: cp -R server/build/vtablet-windows-386.exe server/dist/windows-386/
-      # - run: cp -R server/build/vtablet-windows-amd64.exe server/dist/windows-amd64/
-
-      # - run: cp -R server/libs/windows/** server/dist/windows-386/libs/
-      # - run: cp -R server/libs/windows/** server/dist/windows-amd64/libs/
-
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: vTablet_server_windows_386
-      #     path: server/dist/windows-386/
-
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: vTablet_server_windows_amd64
-      #     path: server/dist/windows-amd64/
-
-
