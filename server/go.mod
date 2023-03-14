@@ -7,8 +7,6 @@ require (
 	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
 )
 
-require github.com/Teages/go-vfile v0.0.2
-
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/getlantern/context v0.0.0-20190109183933-c447772a6520 // indirect
@@ -28,5 +26,4 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/gorilla/websocket v1.5.0
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
-	github.com/zach-klippenstein/goadb v0.0.0-20201208042340-620e0e950ed7
 )

@@ -49,13 +49,13 @@ func initTray(onExit func()) {
 
 		systray.AddSeparator()
 
-		mAdb := systray.AddMenuItem("Restart ADB", "Restart ADB services")
-		go func() {
-			for {
-				<-mAdb.ClickedCh
-				restartAdbServices()
-			}
-		}()
+		// mAdb := systray.AddMenuItem("Restart ADB", "Restart ADB services")
+		// go func() {
+		// 	for {
+		// 		<-mAdb.ClickedCh
+		// 		restartAdbServices()
+		// 	}
+		// }()
 
 		mQuit := systray.AddMenuItem("Quit", "Quit the app")
 		go func() {
