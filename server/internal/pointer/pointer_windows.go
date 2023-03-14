@@ -1,4 +1,4 @@
-package main
+package pointer
 
 import (
 	"github.com/Teages/go-vdigi"
@@ -29,8 +29,8 @@ func getScreenSize() (int32, int32) {
 	return width, height
 }
 
-func updatePointer(rawX, rawY int32, pressure uint32) error {
-	x := rawX + screenOffsetX
-	y := rawY + screenOffsetY
+func UpdatePointer(rawX, rawY int32, pressure uint32) error {
+	x := (rawX + screenOffsetX) * screenWidth / 32767
+	y := (rawY + screenOffsetY) * screenHeight / 32767
 	return digiDevice.Update(x, y, pressure)
 }

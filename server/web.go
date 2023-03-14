@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Teages/vTablet/internal/logger"
+	"github.com/Teages/vTablet/internal/pointer"
 	"github.com/gorilla/websocket"
 )
 
@@ -29,7 +30,6 @@ var (
 func initWebServices(port int) {
 	flag.Parse()
 	http.HandleFunc("/digi", digiWS)
-	http.HandleFunc("/screen", screenData)
 	http.HandleFunc("/", home)
 
 	addr := flag.String("addr", fmt.Sprintf("0.0.0.0:%d", port), "http service address")
@@ -50,7 +50,7 @@ func resolve(msg []byte) []byte {
 		x, _ := strconv.ParseInt(data[0], 10, 32)
 		y, _ := strconv.ParseInt(data[1], 10, 32)
 		p, _ := strconv.ParseInt(data[2], 10, 32)
-		updatePointer(int32(x)*screenWidth/32767, int32(y)*screenHeight/32767, uint32(p*2048/8192))
+		pointer.UpdatePointer(int32(x), int32(y), uint32(p*2048/8192))
 	}
 
 	return nil
@@ -87,20 +87,6 @@ func digiWS(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
-}
-
-// Screen Data
-func screenData(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/screen" {
-		http.Error(w, "Not found", http.StatusNotFound)
-		return
-	}
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-	w.Header().Add("Access-Control-Allow-Origin", "*")
-	fmt.Fprintf(w, `{"screen": {"width": %d,"height": %d}}`, screenWidth, screenHeight)
 }
 
 // HOME

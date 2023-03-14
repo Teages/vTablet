@@ -1,4 +1,4 @@
-package main
+package tools
 
 import (
 	"os"
@@ -9,12 +9,13 @@ import (
 	"github.com/Teages/vTablet/internal/logger"
 )
 
-func selfPath() string {
-	exePath, _ := os.Executable()
+func GetSelfPath() string {
+	exePath, err := os.Executable()
+	logger.Catch(err)
 	return exePath
 }
 
-func cmd(path string, args ...string) {
+func RunCommand(path string, args ...string) {
 	exePath := strings.TrimSpace(path)
 	arg := `/c ` + exePath + " " + strings.Join(args, " ")
 	e := exec.Command("cmd", arg)

@@ -8,6 +8,7 @@ import (
 
 	"github.com/Teages/go-autostart"
 	"github.com/Teages/vTablet/internal/logger"
+	. "github.com/Teages/vTablet/internal/tools"
 	"github.com/getlantern/systray"
 )
 
@@ -32,7 +33,7 @@ func initTray(onExit func()) {
 		aStartWithOS := &autostart.App{
 			Name:        "vTablet",
 			DisplayName: "Auto start vTablet services",
-			Exec:        []string{selfPath()},
+			Exec:        []string{GetSelfPath()},
 		}
 		mStartWithOS := systray.AddMenuItemCheckbox("Start with OS", "Start with OS", aStartWithOS.IsEnabled())
 		go func() {
