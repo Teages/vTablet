@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/Teages/vTablet/internal/console"
 	"github.com/gorilla/websocket"
 )
 

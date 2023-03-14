@@ -4,6 +4,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/Teages/vTablet/internal/console"
 )
 
 func selfPath() string {

@@ -7,6 +7,7 @@ import (
 	"runtime"
 
 	"github.com/Teages/go-autostart"
+	"github.com/Teages/vTablet/internal/console"
 	"github.com/getlantern/systray"
 )
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Teages/go-vdigi"
+	"github.com/Teages/vTablet/internal/console"
 	"github.com/lxn/win"
 )
 
