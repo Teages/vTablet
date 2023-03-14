@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/Teages/go-vdigi"
-	"github.com/Teages/vTablet/internal/console"
+	"github.com/Teages/vTablet/internal/logger"
 	"github.com/lxn/win"
 )
 
@@ -19,7 +19,7 @@ func getScreenOffset() (int32, int32) {
 func getScreenSize() (int32, int32) {
 	width := win.GetSystemMetrics(win.SM_CXVIRTUALSCREEN)
 	height := win.GetSystemMetrics(win.SM_CYVIRTUALSCREEN)
-	console.Log("Screen: (%d, %d)", width, height)
+	logger.Log("Screen: (%d, %d)", width, height)
 	// register updater
 
 	win.SetWinEventHook(win.WM_SETTINGCHANGE, win.WM_SETTINGCHANGE, 0, func(hWinEventHook win.HWINEVENTHOOK, event uint32, hwnd win.HWND, idObject int32, idChild int32, idEventThread uint32, dwmsEventTime uint32) uintptr {

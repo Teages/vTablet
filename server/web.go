@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Teages/vTablet/internal/console"
+	"github.com/Teages/vTablet/internal/logger"
 	"github.com/gorilla/websocket"
 )
 
@@ -58,7 +58,7 @@ func resolve(msg []byte) []byte {
 
 func digiWS(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
-	if console.Catch(err) {
+	if logger.Catch(err) {
 		return
 	}
 
@@ -72,7 +72,7 @@ func digiWS(w http.ResponseWriter, r *http.Request) {
 
 	for {
 		t, message, err := c.ReadMessage()
-		if console.Catch(err) {
+		if logger.Catch(err) {
 			break
 		}
 
@@ -82,7 +82,7 @@ func digiWS(w http.ResponseWriter, r *http.Request) {
 			c.WriteMessage(t, r)
 		}
 
-		if console.Catch(err) {
+		if logger.Catch(err) {
 			break
 		}
 

@@ -7,7 +7,7 @@ import (
 	"runtime"
 
 	"github.com/Teages/go-autostart"
-	"github.com/Teages/vTablet/internal/console"
+	"github.com/Teages/vTablet/internal/logger"
 	"github.com/getlantern/systray"
 )
 
@@ -39,10 +39,10 @@ func initTray(onExit func()) {
 			for {
 				<-mStartWithOS.ClickedCh
 				if aStartWithOS.IsEnabled() {
-					console.Catch(aStartWithOS.Disable())
+					logger.Catch(aStartWithOS.Disable())
 					mStartWithOS.Uncheck()
 				} else {
-					console.Catch(aStartWithOS.Enable())
+					logger.Catch(aStartWithOS.Enable())
 					mStartWithOS.Check()
 				}
 			}

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/Teages/vTablet/internal/console"
+	"github.com/Teages/vTablet/internal/logger"
 )
 
 func selfPath() string {
@@ -19,9 +19,9 @@ func cmd(path string, args ...string) {
 	arg := `/c ` + exePath + " " + strings.Join(args, " ")
 	e := exec.Command("cmd", arg)
 	e.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-	console.Log("Running: %s %s", exePath, arg)
+	logger.Log("Running: %s %s", exePath, arg)
 	e.Stdout = os.Stdout
 	e.Stderr = os.Stderr
 	err := e.Run()
-	console.Catch(err)
+	logger.Catch(err)
 }
