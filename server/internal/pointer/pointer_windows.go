@@ -34,3 +34,7 @@ func UpdatePointer(rawX, rawY int32, pressure uint32) error {
 	y := (rawY + screenOffsetY) * screenHeight / 32767
 	return digiDevice.Update(x, y, pressure)
 }
+
+func Destroy() {
+	digiDevice.Destroy()
+}
