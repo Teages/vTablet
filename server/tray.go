@@ -13,13 +13,18 @@ import (
 	"github.com/getlantern/systray"
 )
 
+var (
+	appName    = "vTablet"
+	appVersion = "v2.1.0"
+)
+
 func initTray(onExit func()) {
 	systray.Run(func() {
 		systray.SetIcon(AppIconData_Disconnected)
 		systray.SetTitle("vTablet")
 		systray.SetTooltip("vTablet")
 
-		mAbout := systray.AddMenuItem("vTablet v2.0.3", "About")
+		mAbout := systray.AddMenuItem(fmt.Sprint(appName, appVersion), "About")
 
 		go func() {
 			for {
