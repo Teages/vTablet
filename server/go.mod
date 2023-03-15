@@ -32,8 +32,11 @@ require (
 
 require (
 	github.com/Teages/go-vdigi v0.0.2
+	github.com/Teages/go-vfile v0.0.2
+	github.com/electricbubble/gadb v0.0.7
 	github.com/getlantern/systray v1.2.1
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/gorilla/websocket v1.5.0
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e
+	github.com/zach-klippenstein/goadb v0.0.0-20201208042340-620e0e950ed7
 )

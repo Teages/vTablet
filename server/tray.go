@@ -7,6 +7,7 @@ import (
 	"runtime"
 
 	"github.com/Teages/go-autostart"
+	"github.com/Teages/vTablet/internal/adb"
 	"github.com/Teages/vTablet/internal/logger"
 	. "github.com/Teages/vTablet/internal/tools"
 	"github.com/getlantern/systray"
@@ -51,13 +52,13 @@ func initTray(onExit func()) {
 
 		systray.AddSeparator()
 
-		// mAdb := systray.AddMenuItem("Restart ADB", "Restart ADB services")
-		// go func() {
-		// 	for {
-		// 		<-mAdb.ClickedCh
-		// 		restartAdbServices()
-		// 	}
-		// }()
+		mAdb := systray.AddMenuItem("Restart ADB", "Restart ADB services")
+		go func() {
+			for {
+				<-mAdb.ClickedCh
+				adb.Restart()
+			}
+		}()
 
 		mQuit := systray.AddMenuItem("Quit", "Quit the app")
 		go func() {

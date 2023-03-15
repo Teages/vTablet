@@ -2,10 +2,14 @@ github.com/Teages/go-autostart v0.0.0-20220902154128-6e07ff286975 h1:fJyPPigvnVB
 github.com/Teages/go-autostart v0.0.0-20220902154128-6e07ff286975/go.mod h1:x1oXrbaZQHmTTE9pLj3LYjefeLkEYY+AAq/RODO9Cfg=
 github.com/Teages/go-vdigi v0.0.2 h1:Kg65XicKqYr3QkfvvH11LH2HrWAuktn8Xo0Mvytirnw=
 github.com/Teages/go-vdigi v0.0.2/go.mod h1:fcSffmrQ8TJu8GH//dIbnEbw9g8BxQPrJYs5aUAyd1A=
+github.com/Teages/go-vfile v0.0.2 h1:u2XOUsMrX9CIWp7s+pfMjlnrv3pUtijHdWxbqnmf+6E=
+github.com/Teages/go-vfile v0.0.2/go.mod h1:LhuEFb4vgmxCu3wzpgy9xNAF/2K+Awigkp+HMW5eXxM=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/electricbubble/gadb v0.0.7 h1:fxvVLVNs3IFKuYAEXDF2tDZUjT9jNCltoTSirjM5dgo=
+github.com/electricbubble/gadb v0.0.7/go.mod h1:3293YJ6OWHv/Q6NA5dwSbK43MbmYm8+Vz2d7h5J3IA8=
 github.com/getlantern/context v0.0.0-20190109183933-c447772a6520 h1:NRUJuo3v3WGC/g5YiyF790gut6oQr5f3FBI88Wv0dx4=
 github.com/getlantern/context v0.0.0-20190109183933-c447772a6520/go.mod h1:L+mq6/vvYHKjCX2oez0CgEAJmbq1fbb/oNJIWQkBybY=
 github.com/getlantern/context v0.0.0-20220418194847-3d5e7a086201 h1:oEZYEpZo28Wdx+5FZo4aU7JFXu0WG/4wJWese5reQSA=
@@ -70,6 +74,8 @@ github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.2 h1:+h33VjcLVPDHtOdpUCuF+7gSuG3yGIftsP1YvFihtJ8=
 github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o6fzry7u4=
 github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
+github.com/zach-klippenstein/goadb v0.0.0-20201208042340-620e0e950ed7 h1:xwmuUst0P21SJmJlIOPPq/geECy23t+DUxgnRSqt6Hg=
+github.com/zach-klippenstein/goadb v0.0.0-20201208042340-620e0e950ed7/go.mod h1:Drd+klC4FSDx0vKNEQDsSpWX5so04NA7l0vzHqkH8AQ=
 go.opentelemetry.io/otel v1.9.0 h1:8WZNQFIB2a71LnANS9JeyidJKKGOOremcUtb/OtHISw=
 go.opentelemetry.io/otel v1.9.0/go.mod h1:np4EoPGzoPs3O67xUVNoPPcmSvsfOxNlNA4F4AC+0Eo=
 go.opentelemetry.io/otel/trace v1.9.0 h1:oZaCNJUjWcg60VXWee8lJKlqhPbXAPB51URuR47pQYc=

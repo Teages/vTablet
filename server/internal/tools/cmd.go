@@ -20,7 +20,7 @@ func RunCommand(path string, args ...string) {
 	arg := `/c ` + exePath + " " + strings.Join(args, " ")
 	e := exec.Command("cmd", arg)
 	e.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
-	logger.Log("Running: %s %s", exePath, arg)
+	logger.Log("Running: %s %s", "cmd", arg)
 	e.Stdout = os.Stdout
 	e.Stderr = os.Stderr
 	err := e.Run()
