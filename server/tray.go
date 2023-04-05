@@ -24,7 +24,7 @@ func initTray(onExit func()) {
 		systray.SetTitle("vTablet")
 		systray.SetTooltip("vTablet")
 
-		mAbout := systray.AddMenuItem(fmt.Sprint(appName, ' ', appVersion), "About")
+		mAbout := systray.AddMenuItem(fmt.Sprint(appName, " ", appVersion), "About")
 
 		go func() {
 			for {
