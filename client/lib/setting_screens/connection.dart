@@ -128,9 +128,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                                                 .connectionDisconnectBtn),
                                         onPressed: () async {
                                           await Services.reset();
-                                          if (context.mounted) {
-                                            setState(() {});
-                                          }
+                                          setState(() {});
                                         },
                                       ),
                                     const Spacer(),
@@ -154,8 +152,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                                             duration:
                                                 const Duration(seconds: 1),
                                           ));
-                                          setState(() {});
                                         }
+                                        setState(() {});
                                       },
                                     ),
                                   ],

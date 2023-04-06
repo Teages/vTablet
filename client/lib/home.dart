@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:logger/logger.dart';
 
 import 'package:uni_links/uni_links.dart';
 
@@ -34,7 +35,12 @@ class _HomeState extends State<Home> {
   _HomeState() : super() {
     () async {
       try {
-        var startUrl = await getInitialUri();
+        Uri? startUrl;
+        try {
+          startUrl = await getInitialUri();
+        } catch (e) {
+          // Ignore
+        }
         var server = startUrl?.queryParameters["server"] ??
             Configs.serverHostSaved.get();
         setState(() {
@@ -51,9 +57,9 @@ class _HomeState extends State<Home> {
           }
           setState(() {});
         }
-        // developer.log("link...");
       } catch (e) {
         // Ignore
+        Logger().i(e);
       }
     }();
   }

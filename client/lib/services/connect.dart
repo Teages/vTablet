@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:vtablet/configs.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ScreenData {
   final String uid;
@@ -71,7 +72,7 @@ class Services {
 }
 
 class WsClient {
-  late IOWebSocketChannel channel;
+  late WebSocketChannel channel;
   WsConnectionState state = WsConnectionState.disconnected;
   final Function(WsConnectionState) _onStateChange;
 
@@ -83,7 +84,12 @@ class WsClient {
     Map<String, dynamic> headers = {};
     headers['origin'] = 'https://vtablet.teages.xyz';
     _setState(WsConnectionState.pending);
-    channel = IOWebSocketChannel.connect(uri, headers: headers);
+    if (kIsWeb) {
+      channel = WebSocketChannel.connect(uri);
+      channel.sink.add('0000');
+    } else {
+      channel = IOWebSocketChannel.connect(uri, headers: headers);
+    }
 
     channel.stream.listen(
       (message) {
