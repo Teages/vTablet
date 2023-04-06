@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vtablet/components/setting_card.dart';
 import 'package:vtablet/configs.dart';
 import 'package:vtablet/services/connect.dart';
@@ -36,14 +37,22 @@ class _ConnectionPageState extends State<ConnectionPage> {
                             color: Theme.of(context).colorScheme.onSecondary),
                       ),
                       leading: Icon(
-                        Icons.sensors_off,
+                        Icons.sensors,
                         color: Theme.of(context).colorScheme.onSecondary,
                       ),
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       actions: <Widget>[
                         TextButton(
-                          onPressed: null,
-                          child: Text(''),
+                          style: TextButton.styleFrom(
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary),
+                          onPressed: () {
+                            launchUrlString(
+                              'https://github.com/Teages/vTablet#help',
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
+                          child: Text(AppLocalizations.of(context)!.helpBtn),
                         ),
                       ],
                     );
@@ -62,8 +71,16 @@ class _ConnectionPageState extends State<ConnectionPage> {
                       backgroundColor: Theme.of(context).colorScheme.error,
                       actions: <Widget>[
                         TextButton(
-                          onPressed: null,
-                          child: Text(''),
+                          style: TextButton.styleFrom(
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary),
+                          onPressed: () {
+                            launchUrlString(
+                              'https://github.com/Teages/vTablet#help',
+                              mode: LaunchMode.externalApplication,
+                            );
+                          },
+                          child: Text(AppLocalizations.of(context)!.helpBtn),
                         ),
                       ],
                     );
@@ -71,6 +88,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                 }),
             Container(
               padding: const EdgeInsets.all(20),
+              constraints: BoxConstraints(maxWidth: 640),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -96,8 +114,21 @@ class _ConnectionPageState extends State<ConnectionPage> {
                               child: Text(AppLocalizations.of(context)!
                                   .connectionConnectBtn),
                               onPressed: () async {
-                                await Services.fetchData();
-                                setState(() {});
+                                var ans = await Services.fetchData();
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(ans
+                                        ? AppLocalizations.of(context)!
+                                            .succeedConnected(
+                                                Configs.serverHost.get())
+                                        : AppLocalizations.of(context)!
+                                            .failedConnected(
+                                                Configs.serverHost.get())),
+                                    duration: const Duration(seconds: 1),
+                                  ));
+                                  setState(() {});
+                                }
                               },
                             ),
                           ],

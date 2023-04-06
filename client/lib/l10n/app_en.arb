@@ -1,0 +1,75 @@
+{
+  "aboutPageTitle": "About",
+  "aboutSoftwareInfoTitle": "App Info",
+  "aboutUpdateCheckTitle": "Update Check",
+  "aboutDonateTitle": "Donate",
+  "aboutGithubBtn": "Visit GitHub repo",
+
+  "appearancePageTitle": "Appearance",
+  "appearancePageContext": "Apprarance is not ready yet",
+
+  
+  "connectionPageTitle": "Connection",
+  "connectionFirstTitle": "Connect to server",
+  "connectionServer": "Server",
+  "connectionConnectBtn": "Connect",
+  "connectionState": "Connect State",
+  "connectionStateConnected": "Connected",
+  "connectionStateDisconnected": "Disconnected",
+  "connectionMonitor": "Monitor {uid}: {width}x{height}",
+  "@connectionMonitor": {
+    "placeholders": {
+      "uid": {
+        "type": "String",
+        "example": "ffffff"
+      },
+      "width": {
+        "type": "int",
+        "example": "1920"
+      },
+      "height": {
+        "type": "int",
+        "example": "1080"
+      }
+    }
+  },
+  "connectionReconnectBtn": "Reconnect",
+
+  "controlPageTitle": "Control",
+  "controlAriaTitle": "Input Aria",
+  "controlAriaScaleLabel": "Scale",
+  "controlAriaOffsetXLabel": "Offset X",
+  "controlAriaOffsetYLabel": "Offset Y",
+  "controlInputTypeTitle": "Input Type",
+  "controlInputTypenamePen": "Pen",
+  "controlInputTypenameTouch": "Touch",
+  "controlInputTypenameMouse": "Mouse",
+  "controlInputIgnoreClick": "Ignore pressure input",
+  "controlOtherTitle": "Other",
+  "controlPreventSleep": "Prevent phone/tablet from sleeping",
+  
+  "clickAgainToExit": "Click again to exit.",
+  "lostConnect": "Disconnected to server",
+  "connectFirstPlease": "Please connect first",
+  
+  "succeedConnected": "Server found: {url}",
+  "@succeedConnected": {
+    "placeholders": {
+      "url": {
+        "type": "String",
+        "example": "localhost"
+      }
+    }
+  },
+  "failedConnected": "Server not responding: {url}",
+  "@failedConnected": {
+    "placeholders": {
+      "url": {
+        "type": "String",
+        "example": "localhost"
+      }
+    }
+  },
+
+  "helpBtn": "Help"
+}

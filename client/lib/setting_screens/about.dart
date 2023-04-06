@@ -19,6 +19,7 @@ class AboutPage extends StatelessWidget {
         child: Column(
           children: [
             Container(
+              constraints: const BoxConstraints(maxWidth: 640),
               padding: const EdgeInsets.all(20),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,9 +46,9 @@ class AboutPage extends StatelessWidget {
                             Mdi.github,
                             color: Colors.white,
                           ),
-                          label: const Text(
-                            'Get more from GitHub',
-                            style: TextStyle(color: Colors.white),
+                          label: Text(
+                            AppLocalizations.of(context)!.aboutGithubBtn,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ],

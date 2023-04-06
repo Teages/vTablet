@@ -48,7 +48,7 @@ class VTabletPage extends StatelessWidget {
             return AlertDialog(
               content: SingleChildScrollView(
                   child: ListBody(
-                children: const [Text("Lost connect to server.")],
+                children: [Text(AppLocalizations.of(context)!.lostConnect)],
               )),
               actions: <Widget>[
                 TextButton(

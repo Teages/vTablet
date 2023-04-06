@@ -22,6 +22,7 @@ class _ControlPageState extends State<ControlPage> {
         child: Column(
           children: [
             Container(
+              constraints: const BoxConstraints(maxWidth: 640),
               padding: const EdgeInsets.all(20),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

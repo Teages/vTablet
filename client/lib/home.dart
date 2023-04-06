@@ -40,8 +40,17 @@ class _HomeState extends State<Home> {
         setState(() {
           Configs.serverHost.set(server);
         });
-        await Services.fetchData();
-        setState(() {});
+        var ans = await Services.fetchData();
+        if (context.mounted) {
+          if (ans) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(AppLocalizations.of(context)!
+                  .succeedConnected(Configs.serverHost.get())),
+              duration: const Duration(seconds: 1),
+            ));
+          }
+          setState(() {});
+        }
         // developer.log("link...");
       } catch (e) {
         // Ignore
@@ -89,7 +98,7 @@ class _HomeState extends State<Home> {
                   icon: const Icon(Icons.play_arrow),
                   backgroundColor:
                       VTabletWS.state.value == WsConnectionState.connected
-                          ? Theme.of(context).primaryColor
+                          ? null
                           // : Theme.of(context).disabledColor,
                           : Colors.grey,
                 );

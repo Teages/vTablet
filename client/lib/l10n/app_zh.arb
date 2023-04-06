@@ -3,6 +3,7 @@
   "aboutSoftwareInfoTitle": "软件信息",
   "aboutUpdateCheckTitle": "更新检查",
   "aboutDonateTitle": "捐赠",
+  "aboutGithubBtn": "访问项目 GitHub 仓库",
 
   "appearancePageTitle": "外观",
   "appearancePageContext": "外观设置正在准备中",
@@ -49,6 +50,26 @@
   
   "clickAgainToExit": "再点一次以退出",
   "lostConnect": "与服务器断开连接",
-  "connectFirstPlease": "请先连接"
+  "connectFirstPlease": "请先连接",
+
+  "succeedConnected": "找到服务器: {url}",
+  "@succeedConnected": {
+    "placeholders": {
+      "url": {
+        "type": "String",
+        "example": "localhost"
+      }
+    }
+  },
+  "failedConnected": "服务器未响应: {url}",
+  "@failedConnected": {
+    "placeholders": {
+      "url": {
+        "type": "String",
+        "example": "localhost"
+      }
+    }
+  },
   
+  "helpBtn": "帮助文档"
 }

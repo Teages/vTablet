@@ -53,7 +53,7 @@ class _AppState extends State<App> {
       ],
       supportedLocales: const [
         Locale('zh'), // Chinese
-        // Locale('en'), // English
+        Locale('en'), // English
       ],
       themeMode: themeMode,
       theme: ThemeData(

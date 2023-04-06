@@ -32,7 +32,7 @@ class ScreenData {
 class Services {
   static List<ScreenData> screens = [];
 
-  static fetchData() async {
+  static Future<bool> fetchData() async {
     VTabletWS.disconnect();
 
     var serverUrl = Configs.serverHost.get();
@@ -57,9 +57,11 @@ class Services {
           screens[0].connect();
         }
       }
+      return true;
     } catch (e) {
       Logger().e(e);
     }
+    return false;
   }
 }
 
