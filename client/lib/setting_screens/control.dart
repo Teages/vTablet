@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:logger/logger.dart';
 import 'package:vtablet/configs.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import '../components/setting_card.dart';
 
@@ -27,11 +26,12 @@ class _ControlPageState extends State<ControlPage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...SettingCard(
-                      "输入区域",
+                    ...createSettingCard(
+                      AppLocalizations.of(context)!.controlAriaTitle,
                       [
                         LabelSlider(
-                          label: "缩放",
+                          label: AppLocalizations.of(context)!
+                              .controlAriaScaleLabel,
                           value: Configs.ariaScale.get(),
                           max: 1,
                           min: 0,
@@ -43,7 +43,8 @@ class _ControlPageState extends State<ControlPage> {
                           },
                         ),
                         LabelSlider(
-                          label: "X 偏移",
+                          label: AppLocalizations.of(context)!
+                              .controlAriaOffsetXLabel,
                           value: Configs.ariaOffsetX.get(),
                           max: 1,
                           min: -1,
@@ -55,7 +56,8 @@ class _ControlPageState extends State<ControlPage> {
                           },
                         ),
                         LabelSlider(
-                          label: "Y 偏移",
+                          label: AppLocalizations.of(context)!
+                              .controlAriaOffsetYLabel,
                           value: Configs.ariaOffsetY.get(),
                           max: 1,
                           min: -1,
@@ -69,17 +71,18 @@ class _ControlPageState extends State<ControlPage> {
                       ],
                       context,
                     ),
-                    ...SettingCard(
-                      "输入类型",
+                    ...createSettingCard(
+                      AppLocalizations.of(context)!.controlInputTypeTitle,
                       [
-                        InputChoice(),
+                        const InputChoice(),
                         const SizedBox(
                           height: 45,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('忽略压力信息'),
+                            Text(AppLocalizations.of(context)!
+                                .controlInputIgnoreClick),
                             Switch(
                               value: Configs.inputIgnoreClick.get(),
                               onChanged: (bool on) {
@@ -93,13 +96,14 @@ class _ControlPageState extends State<ControlPage> {
                       ],
                       context,
                     ),
-                    ...SettingCard(
-                      "其他设置",
+                    ...createSettingCard(
+                      AppLocalizations.of(context)!.controlOtherTitle,
                       [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('阻止手机/平板休眠'),
+                            Text(AppLocalizations.of(context)!
+                                .controlPreventSleep),
                             Switch(
                               value: Configs.preventSleep.get(),
                               onChanged: (bool on) {
@@ -122,6 +126,7 @@ class _ControlPageState extends State<ControlPage> {
   }
 }
 
+// ignore: must_be_immutable
 class LabelSlider extends StatefulWidget {
   LabelSlider({
     super.key,
@@ -178,19 +183,19 @@ class ControlDestination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const NavigationDestination(
-      icon: Icon(Icons.games_outlined),
-      selectedIcon: Icon(Icons.games),
-      label: '控制',
+    return NavigationDestination(
+      icon: const Icon(Icons.games_outlined),
+      selectedIcon: const Icon(Icons.games),
+      label: AppLocalizations.of(context)!.controlPageTitle,
     );
   }
 }
 
-NavigationRailDestination ControlRailDestination() {
-  return const NavigationRailDestination(
-    icon: Icon(Icons.games_outlined),
-    selectedIcon: Icon(Icons.games),
-    label: Text('控制'),
+NavigationRailDestination controlRailDestination(BuildContext context) {
+  return NavigationRailDestination(
+    icon: const Icon(Icons.games_outlined),
+    selectedIcon: const Icon(Icons.games),
+    label: Text(AppLocalizations.of(context)!.controlPageTitle),
   );
 }
 
@@ -223,21 +228,21 @@ class _InputChoiceState extends State<InputChoice> {
   @override
   Widget build(BuildContext context) {
     return SegmentedButton<InputTypes>(
-      segments: const <ButtonSegment<InputTypes>>[
+      segments: <ButtonSegment<InputTypes>>[
         ButtonSegment<InputTypes>(
           value: InputTypes.pen,
-          label: Text('笔'),
-          icon: Icon(Icons.edit),
+          label: Text(AppLocalizations.of(context)!.controlInputTypenamePen),
+          icon: const Icon(Icons.edit),
         ),
         ButtonSegment<InputTypes>(
           value: InputTypes.touch,
-          label: Text('触摸'),
-          icon: Icon(Icons.touch_app),
+          label: Text(AppLocalizations.of(context)!.controlInputTypenameTouch),
+          icon: const Icon(Icons.touch_app),
         ),
         ButtonSegment<InputTypes>(
           value: InputTypes.mouse,
-          label: Text('鼠标'),
-          icon: Icon(Icons.mouse),
+          label: Text(AppLocalizations.of(context)!.controlInputTypenameMouse),
+          icon: const Icon(Icons.mouse),
         ),
       ],
       selected: selection,

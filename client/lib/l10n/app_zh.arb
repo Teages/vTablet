@@ -1,0 +1,54 @@
+{
+  "aboutPageTitle": "关于",
+  "aboutSoftwareInfoTitle": "软件信息",
+  "aboutUpdateCheckTitle": "更新检查",
+  "aboutDonateTitle": "捐赠",
+
+  "appearancePageTitle": "外观",
+  "appearancePageContext": "外观设置正在准备中",
+
+  
+  "connectionPageTitle": "连接",
+  "connectionFirstTitle": "连接服务器",
+  "connectionServer": "服务器",
+  "connectionConnectBtn": "连接",
+  "connectionState": "连接状态",
+  "connectionStateConnected": "已连接",
+  "connectionStateDisconnected": "未连接",
+  "connectionMonitor": "显示器 {uid}: {width}x{height}",
+  "@connectionMonitor": {
+    "placeholders": {
+      "uid": {
+        "type": "String",
+        "example": "ffffff"
+      },
+      "width": {
+        "type": "int",
+        "example": "1920"
+      },
+      "height": {
+        "type": "int",
+        "example": "1080"
+      }
+    }
+  },
+  "connectionReconnectBtn": "重新连接",
+
+  "controlPageTitle": "控制",
+  "controlAriaTitle": "输入区域",
+  "controlAriaScaleLabel": "缩放",
+  "controlAriaOffsetXLabel": "X 偏移",
+  "controlAriaOffsetYLabel": "Y 偏移",
+  "controlInputTypeTitle": "输入类型",
+  "controlInputTypenamePen": "笔",
+  "controlInputTypenameTouch": "触摸",
+  "controlInputTypenameMouse": "鼠标",
+  "controlInputIgnoreClick": "忽略压力信息",
+  "controlOtherTitle": "其他设置",
+  "controlPreventSleep": "阻止手机/平板休眠",
+  
+  "clickAgainToExit": "再点一次以退出",
+  "lostConnect": "与服务器断开连接",
+  "connectFirstPlease": "请先连接"
+  
+}

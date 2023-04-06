@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vtablet/configs.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import 'dart:developer' as developer;
 
@@ -144,9 +145,10 @@ class VTabletPage extends StatelessWidget {
                       readyExit();
                       Navigator.pop(context);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("再点一次退出."),
-                        duration: Duration(seconds: 1),
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            AppLocalizations.of(context)!.clickAgainToExit),
+                        duration: const Duration(seconds: 1),
                       ));
                     }
                     lastClickExit = DateTime.now().millisecondsSinceEpoch;

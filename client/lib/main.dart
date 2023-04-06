@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:logger/logger.dart';
 import 'package:vtablet/services/states.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import 'home.dart';
 
@@ -44,6 +45,16 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'vTablet',
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('zh'), // Chinese
+        // Locale('en'), // English
+      ],
       themeMode: themeMode,
       theme: ThemeData(
         // colorSchemeSeed: colorSelected.color,

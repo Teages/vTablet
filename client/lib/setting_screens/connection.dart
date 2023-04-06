@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:vtablet/components/setting_card.dart';
 import 'package:vtablet/configs.dart';
 import 'package:vtablet/services/connect.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import '../components/delay.dart';
 
@@ -33,7 +31,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   if (value == WsConnectionState.connected) {
                     return MaterialBanner(
                       content: Text(
-                        "已就绪",
+                        AppLocalizations.of(context)!.connectionStateConnected,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onSecondary),
                       ),
@@ -52,7 +50,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                   } else {
                     return MaterialBanner(
                       content: Text(
-                        "未连接",
+                        AppLocalizations.of(context)!
+                            .connectionStateDisconnected,
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onError),
                       ),
@@ -75,12 +74,14 @@ class _ConnectionPageState extends State<ConnectionPage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...SettingCard(
-                      "连接服务器",
+                    ...createSettingCard(
+                      AppLocalizations.of(context)!.connectionFirstTitle,
                       [
                         TextFormField(
                           initialValue: Configs.serverHost.get(),
-                          decoration: const InputDecoration(labelText: '服务器'),
+                          decoration: InputDecoration(
+                              labelText: AppLocalizations.of(context)!
+                                  .connectionServer),
                           readOnly: false,
                           onChanged: (value) => Configs.serverHost.set(value),
                         ),
@@ -92,7 +93,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                           children: [
                             const Spacer(),
                             TextButton(
-                              child: const Text('连接'),
+                              child: Text(AppLocalizations.of(context)!
+                                  .connectionConnectBtn),
                               onPressed: () async {
                                 await Services.fetchData();
                                 setState(() {});
@@ -104,8 +106,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                       context,
                     ),
                     if (Services.screens.isNotEmpty)
-                      ...SettingCard(
-                        "连接状态",
+                      ...createSettingCard(
+                        AppLocalizations.of(context)!.connectionState,
                         [
                           DropdownButton<ScreenData>(
                               isExpanded: true,
@@ -134,8 +136,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
                                   ans.add(
                                     DropdownMenuItem<ScreenData>(
                                       value: data,
-                                      child: Text(
-                                          '显示器 ${data.uid}: ${data.width}x${data.height}'),
+                                      child: Text(AppLocalizations.of(context)!
+                                          .connectionMonitor(data.uid,
+                                              data.width, data.height)),
                                     ),
                                   );
                                 }
@@ -163,7 +166,8 @@ class _ConnectionPageState extends State<ConnectionPage> {
                               DelayDialog(),
                               const Spacer(),
                               TextButton(
-                                child: const Text('重新连接'),
+                                child: Text(AppLocalizations.of(context)!
+                                    .connectionReconnectBtn),
                                 onPressed: () {
                                   var screenUid = Configs.screenUid.get();
                                   if (screenUid != "") {
@@ -197,18 +201,18 @@ class ConnectionDestination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const NavigationDestination(
+    return NavigationDestination(
       icon: Icon(Icons.sensors),
       selectedIcon: Icon(Icons.sensors),
-      label: '连接',
+      label: AppLocalizations.of(context)!.connectionPageTitle,
     );
   }
 }
 
-NavigationRailDestination ConnectionRailDestination() {
+NavigationRailDestination connectionRailDestination(BuildContext context) {
   return NavigationRailDestination(
     icon: Icon(Icons.sensors),
     selectedIcon: Icon(Icons.sensors),
-    label: Text('连接'),
+    label: Text(AppLocalizations.of(context)!.connectionPageTitle),
   );
 }

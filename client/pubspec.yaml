@@ -45,6 +45,9 @@ dependencies:
   wakelock: ^0.6.2
   fullscreen_window: ^1.0.4
   uni_links: ^0.5.1
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +71,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'package:mdi/mdi.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import '../components/setting_card.dart';
 
@@ -23,8 +23,8 @@ class AboutPage extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...SettingCard(
-                      "软件信息",
+                    ...createSettingCard(
+                      AppLocalizations.of(context)!.aboutSoftwareInfoTitle,
                       [
                         const Text(
                           'v3.0.0 by Teages',
@@ -58,12 +58,12 @@ class AboutPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     // ...SettingCard(
-                    //   "更新检查",
+                    //   AppLocalizations.of(context)!.aboutUpdateCheckTitle,
                     //   [],
                     //   context,
                     // ),
                     // ...SettingCard(
-                    //   "捐赠",
+                    //   AppLocalizations.of(context)!.aboutDonateTitle,
                     //   [],
                     //   context,
                     // ),
@@ -83,18 +83,18 @@ class AboutDestination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const NavigationDestination(
-      icon: Icon(Icons.info_outline),
-      selectedIcon: Icon(Icons.info),
-      label: '关于',
+    return NavigationDestination(
+      icon: const Icon(Icons.info_outline),
+      selectedIcon: const Icon(Icons.info),
+      label: AppLocalizations.of(context)!.aboutPageTitle,
     );
   }
 }
 
-NavigationRailDestination AboutRailDestination() {
-  return const NavigationRailDestination(
-    icon: Icon(Icons.info_outline),
-    selectedIcon: Icon(Icons.info),
-    label: Text('关于'),
+NavigationRailDestination aboutRailDestination(BuildContext context) {
+  return NavigationRailDestination(
+    icon: const Icon(Icons.info_outline),
+    selectedIcon: const Icon(Icons.info),
+    label: Text(AppLocalizations.of(context)!.aboutPageTitle),
   );
 }

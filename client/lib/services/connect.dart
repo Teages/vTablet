@@ -21,12 +21,11 @@ class ScreenData {
         width = json['width'],
         height = json['height'];
 
-  @override
   List<Object> get props => [uid];
 
   connect() {
     Configs.ariaRatio.set(width / height);
-    VTabletWS.conncet(Configs.serverHostSaved.get(), path);
+    VTabletWS.connect(Configs.serverHostSaved.get(), path);
   }
 }
 
@@ -79,7 +78,7 @@ class WsClient {
     _setState(WsConnectionState.pending);
     channel = IOWebSocketChannel.connect(uri, headers: headers);
 
-    var l = channel.stream.listen(
+    channel.stream.listen(
       (message) {
         if (state == WsConnectionState.pending) {
           _setState(WsConnectionState.connected);
@@ -156,7 +155,7 @@ class VTabletWS {
 
   static WsClient? client;
 
-  static conncet(String host, String path) {
+  static connect(String host, String path) {
     client = WsClient.connect(
       host,
       path,

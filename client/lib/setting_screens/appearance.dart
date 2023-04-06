@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class AppearancePage extends StatelessWidget {
   const AppearancePage({
@@ -10,7 +10,7 @@ class AppearancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      child: const Text('外观设置正在准备中'),
+      child: Text(AppLocalizations.of(context)!.appearancePageContext),
     );
   }
 }
@@ -22,18 +22,18 @@ class AppearanceDestination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const NavigationDestination(
-      icon: Icon(Icons.color_lens_outlined),
-      selectedIcon: Icon(Icons.color_lens),
-      label: '外观',
+    return NavigationDestination(
+      icon: const Icon(Icons.color_lens_outlined),
+      selectedIcon: const Icon(Icons.color_lens),
+      label: AppLocalizations.of(context)!.appearancePageTitle,
     );
   }
 }
 
-NavigationRailDestination AppearanceRailDestination() {
-  return const NavigationRailDestination(
-    icon: Icon(Icons.color_lens_outlined),
-    selectedIcon: Icon(Icons.color_lens),
-    label: Text('外观'),
+NavigationRailDestination appearanceRailDestination(BuildContext context) {
+  return NavigationRailDestination(
+    icon: const Icon(Icons.color_lens_outlined),
+    selectedIcon: const Icon(Icons.color_lens),
+    label: Text(AppLocalizations.of(context)!.appearancePageTitle),
   );
 }

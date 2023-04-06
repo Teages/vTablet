@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'dart:developer' as developer;
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import 'package:uni_links/uni_links.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:fullscreen_window/fullscreen_window.dart';
-import 'package:logger/logger.dart';
 import 'package:vtablet/configs.dart';
 import 'package:vtablet/services/connect.dart';
 import 'package:vtablet/setting_screens/about.dart';
@@ -79,10 +76,13 @@ class _HomeState extends State<Home> {
                       );
                       FullScreenWindow.setFullScreen(true);
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("请先连接."),
-                        duration: Duration(seconds: 1),
-                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              AppLocalizations.of(context)!.connectFirstPlease),
+                          duration: const Duration(seconds: 1),
+                        ),
+                      );
                     }
                   },
                   label: const Text('Start'),
@@ -126,18 +126,18 @@ class _HomeState extends State<Home> {
               labelType: NavigationRailLabelType.all,
               // navigation rail items
               destinations: [
-                ConnectionRailDestination(),
-                ControlRailDestination(),
-                AppearanceRailDestination(),
-                AboutRailDestination(),
+                connectionRailDestination(context),
+                controlRailDestination(context),
+                appearanceRailDestination(context),
+                aboutRailDestination(context),
               ],
             ),
           Expanded(
             child: <Widget>[
-              ConnectionPage(),
-              ControlPage(),
-              AppearancePage(),
-              AboutPage(),
+              const ConnectionPage(),
+              const ControlPage(),
+              const AppearancePage(),
+              const AboutPage(),
             ][currentPageIndex],
           ),
         ],

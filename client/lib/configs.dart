@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:vtablet/services/states.dart';
 
 class Configs {
@@ -39,8 +38,8 @@ class Configs {
 }
 
 class _Config<T> {
-  String _key;
-  T _defaultValue;
+  final String _key;
+  final T _defaultValue;
 
   _Config(String key, T defaultValue)
       : _key = key,
@@ -56,8 +55,8 @@ class _Config<T> {
 }
 
 class _State<T> {
-  String _key;
-  T _defaultValue;
+  final String _key;
+  final T _defaultValue;
 
   _State(String key, T defaultValue)
       : _key = key,

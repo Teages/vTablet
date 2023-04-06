@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-List<Widget> SettingCard(
+List<Widget> createSettingCard(
     String title, List<Widget> content, BuildContext context) {
   return <Widget>[
     Text(
