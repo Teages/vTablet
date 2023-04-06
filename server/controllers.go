@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/Teages/go-vdigi"
+	"github.com/Teages/vTablet/internal/logger"
 	"golang.org/x/net/websocket"
 )
 
@@ -36,8 +37,10 @@ type ScreenData struct {
 }
 
 func connecter(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
+	logger.Log("cat")
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "https://vtablet.teages.xyz")
+	w.WriteHeader(http.StatusOK)
 
 	var ans []ScreenData
 	for i := 0; i < vdigi.GetScreens().GetScreenCount(); i++ {
