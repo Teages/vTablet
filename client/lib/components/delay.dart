@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vtablet/web.dart';
+import 'package:vtablet/services/connect.dart';
 
 class DelayDialog extends Container {
   DelayDialog({
@@ -12,8 +12,8 @@ class DelayDialog extends Container {
               builder: (context, value, child) => ElevatedButton(
                 onPressed: onClick ?? () {},
                 style: ElevatedButton.styleFrom(
-                  primary: getSignalColor(VTabletWS.delay.value),
-                  onPrimary: Colors.black,
+                  backgroundColor: getSignalColor(VTabletWS.delay.value),
+                  foregroundColor: Colors.black,
                 ),
                 child: Text("${VTabletWS.delay.value} ms"),
               ),
