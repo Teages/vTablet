@@ -165,85 +165,97 @@ class _ConnectionPageState extends State<ConnectionPage> {
                       ],
                       context,
                     ),
-                    if (Services.screens.isNotEmpty)
-                      ...createSettingCard(
-                        AppLocalizations.of(context)!.connectionState,
-                        [
-                          DropdownButton<ScreenData>(
-                              isExpanded: true,
-                              value: () {
-                                var screenUid = Configs.screenUid.get();
-                                if (screenUid == "") {
-                                  var screen = Services.screens[0];
-                                  screenUid = screen.uid;
-                                  setState(() {
-                                    Configs.screenUid.set(screenUid);
-                                  });
-                                  return screen;
-                                } else {
-                                  for (final screen in Services.screens) {
-                                    if (screen.uid == screenUid) {
-                                      return screen;
-                                    }
-                                  }
-                                }
-                              }(),
-                              items: () {
-                                final List<DropdownMenuItem<ScreenData>> ans =
-                                    [];
-                                for (final ScreenData data
-                                    in Services.screens) {
-                                  ans.add(
-                                    DropdownMenuItem<ScreenData>(
-                                      value: data,
-                                      child: Text(AppLocalizations.of(context)!
-                                          .connectionMonitor(data.uid,
-                                              data.width, data.height)),
-                                    ),
-                                  );
-                                }
-                                return ans;
-                              }(),
-                              onChanged: (screen) {
-                                VTabletWS.disconnect();
-                                if (screen != null) {
-                                  setState(() {
-                                    Configs.screenUid.set(screen.uid);
-                                  });
-                                  screen.connect();
-                                } else {
-                                  setState(() {
-                                    Configs.screenUid.set("");
-                                  });
-                                }
-                              }),
-                          const SizedBox(
-                            height: 60,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              DelayDialog(),
-                              const Spacer(),
-                              TextButton(
-                                child: Text(AppLocalizations.of(context)!
-                                    .connectionReconnectBtn),
-                                onPressed: () {
-                                  var screenUid = Configs.screenUid.get();
-                                  if (screenUid != "") {
-                                    for (final screen in Services.screens) {
-                                      if (screen.uid == screenUid) {
-                                        screen.connect();
-                                      }
-                                    }
-                                  }
-                                },
+                    ValueListenableBuilder(
+                      valueListenable: Services.screens,
+                      builder: (context, value, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (value.isNotEmpty)
+                              ...createSettingCard(
+                                AppLocalizations.of(context)!.connectionState,
+                                [
+                                  DropdownButton<ScreenData>(
+                                      isExpanded: true,
+                                      value: () {
+                                        var screenUid = Configs.screenUid.get();
+                                        if (screenUid == "") {
+                                          var screen = value[0];
+                                          screenUid = screen.uid;
+                                          return screen;
+                                        } else {
+                                          for (final screen in value) {
+                                            if (screen.uid == screenUid) {
+                                              return screen;
+                                            }
+                                          }
+                                        }
+                                      }(),
+                                      items: () {
+                                        final List<DropdownMenuItem<ScreenData>>
+                                            ans = [];
+                                        for (final ScreenData data in value) {
+                                          ans.add(
+                                            DropdownMenuItem<ScreenData>(
+                                              value: data,
+                                              child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .connectionMonitor(
+                                                          data.uid,
+                                                          data.width,
+                                                          data.height)),
+                                            ),
+                                          );
+                                        }
+                                        return ans;
+                                      }(),
+                                      onChanged: (screen) {
+                                        VTabletWS.disconnect();
+                                        if (screen != null) {
+                                          setState(() {
+                                            Configs.screenUid.set(screen.uid);
+                                          });
+                                          screen.connect();
+                                        } else {
+                                          setState(() {
+                                            Configs.screenUid.set("");
+                                          });
+                                        }
+                                      }),
+                                  const SizedBox(
+                                    height: 60,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      DelayDialog(),
+                                      const Spacer(),
+                                      TextButton(
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .connectionReconnectBtn),
+                                        onPressed: () {
+                                          var screenUid =
+                                              Configs.screenUid.get();
+                                          if (screenUid != "") {
+                                            for (final screen in value) {
+                                              if (screen.uid == screenUid) {
+                                                screen.connect();
+                                              }
+                                            }
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                ],
+                                context,
                               ),
-                            ],
-                          )
-                        ],
-                        context,
-                      ),
+                          ],
+                        );
+                      },
+                    ),
                   ]),
             ),
           ],

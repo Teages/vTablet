@@ -8,6 +8,7 @@ class Configs {
 
   static final preventSleep = _initConfig<bool>("other.preventSleep", true);
 
+  static final screenUidSaved = _initConfig<String>("aria.screenId", "");
   static final screenUid = _initState<String>("aria.screenId", "");
 
   static final ariaScale = _initConfig<double>("aria.scale", 0.8);

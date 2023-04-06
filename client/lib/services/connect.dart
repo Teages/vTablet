@@ -25,19 +25,22 @@ class ScreenData {
   List<Object> get props => [uid];
 
   connect() {
-    Configs.ariaRatio.set(width / height);
     VTabletWS.connect(Configs.serverHostSaved.get(), path);
+    Configs.screenUid.set(uid);
+    Configs.screenUidSaved.set(uid);
+    Configs.ariaRatio.set(width / height);
   }
 }
 
 class Services {
-  static List<ScreenData> screens = [];
+  // static List<ScreenData> screens = [];
+  static ValueNotifierList<ScreenData> screens = ValueNotifierList([]);
 
   static Future<bool> fetchData() async {
     VTabletWS.disconnect();
 
     var serverUrl = Configs.serverHost.get();
-    screens = [];
+    screens.removeAll();
     try {
       final response = await http.get(Uri.parse('http://$serverUrl/connect'));
       if (response.statusCode == 200) {
@@ -48,14 +51,18 @@ class Services {
         Configs.serverHostSaved.set(serverUrl);
 
         // auto connect
-        var lastScreen = Configs.screenUid.get();
-        for (final screen in screens) {
+        var lastScreen = Configs.screenUidSaved.get();
+        Logger().d(lastScreen);
+        for (final screen in screens.value) {
           if (screen.uid == lastScreen) {
-            screen.connect();
+            () {
+              screen.connect();
+              screens.forceUpdate();
+            }();
           }
         }
         if (VTabletWS.state.value != WsConnectionState.connected) {
-          screens[0].connect();
+          screens.value[0].connect();
         }
       }
       return true;
@@ -67,7 +74,7 @@ class Services {
 
   static reset() async {
     await VTabletWS.disconnect();
-    screens = [];
+    screens.removeAll();
   }
 }
 
@@ -202,3 +209,25 @@ class VTabletWS {
 }
 
 enum WsConnectionState { pending, connected, disconnected, deprecated }
+
+class ValueNotifierList<T> extends ValueNotifier<List<T>> {
+  ValueNotifierList(List<T> initValue) : super(initValue);
+
+  void add(T item) {
+    value.add(item);
+    _copyValue();
+  }
+
+  void removeAll() {
+    value.clear();
+    _copyValue();
+  }
+
+  void forceUpdate() {
+    _copyValue();
+  }
+
+  void _copyValue() {
+    value = [...value];
+  }
+}
