@@ -13,6 +13,7 @@
   "connectionFirstTitle": "Connect to server",
   "connectionServer": "Server",
   "connectionConnectBtn": "Connect",
+  "connectionDisconnectBtn": "Disconnect",
   "connectionState": "Connect State",
   "connectionStateConnected": "Connected",
   "connectionStateDisconnected": "Disconnected",

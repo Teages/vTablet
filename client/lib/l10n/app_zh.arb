@@ -13,6 +13,7 @@
   "connectionFirstTitle": "连接服务器",
   "connectionServer": "服务器",
   "connectionConnectBtn": "连接",
+  "connectionDisconnectBtn": "断开连接",
   "connectionState": "连接状态",
   "connectionStateConnected": "已连接",
   "connectionStateDisconnected": "未连接",

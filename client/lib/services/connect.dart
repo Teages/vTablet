@@ -63,6 +63,11 @@ class Services {
     }
     return false;
   }
+
+  static reset() async {
+    await VTabletWS.disconnect();
+    screens = [];
+  }
 }
 
 class WsClient {

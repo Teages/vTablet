@@ -95,44 +95,75 @@ class _ConnectionPageState extends State<ConnectionPage> {
                     ...createSettingCard(
                       AppLocalizations.of(context)!.connectionFirstTitle,
                       [
-                        TextFormField(
-                          initialValue: Configs.serverHost.get(),
-                          decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!
-                                  .connectionServer),
-                          readOnly: false,
-                          onChanged: (value) => Configs.serverHost.set(value),
+                        ValueListenableBuilder(
+                          valueListenable: VTabletWS.state,
+                          builder: (context, value, child) {
+                            return Column(
+                              children: [
+                                TextFormField(
+                                  initialValue: Configs.serverHost.get(),
+                                  decoration: InputDecoration(
+                                      labelText: AppLocalizations.of(context)!
+                                          .connectionServer),
+                                  readOnly:
+                                      value != WsConnectionState.disconnected,
+                                  onChanged: (value) =>
+                                      Configs.serverHost.set(value),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    if (value != WsConnectionState.disconnected)
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                            foregroundColor: Theme.of(context)
+                                                .colorScheme
+                                                .error),
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .connectionDisconnectBtn),
+                                        onPressed: () async {
+                                          await Services.reset();
+                                          if (context.mounted) {
+                                            setState(() {});
+                                          }
+                                        },
+                                      ),
+                                    const Spacer(),
+                                    TextButton(
+                                      child: Text(AppLocalizations.of(context)!
+                                          .connectionConnectBtn),
+                                      onPressed: () async {
+                                        var ans = await Services.fetchData();
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            content: Text(ans
+                                                ? AppLocalizations.of(context)!
+                                                    .succeedConnected(Configs
+                                                        .serverHost
+                                                        .get())
+                                                : AppLocalizations.of(context)!
+                                                    .failedConnected(Configs
+                                                        .serverHost
+                                                        .get())),
+                                            duration:
+                                                const Duration(seconds: 1),
+                                          ));
+                                          setState(() {});
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
+                          },
                         ),
-                        const SizedBox(
-                          height: 70,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Spacer(),
-                            TextButton(
-                              child: Text(AppLocalizations.of(context)!
-                                  .connectionConnectBtn),
-                              onPressed: () async {
-                                var ans = await Services.fetchData();
-                                if (context.mounted) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(ans
-                                        ? AppLocalizations.of(context)!
-                                            .succeedConnected(
-                                                Configs.serverHost.get())
-                                        : AppLocalizations.of(context)!
-                                            .failedConnected(
-                                                Configs.serverHost.get())),
-                                    duration: const Duration(seconds: 1),
-                                  ));
-                                  setState(() {});
-                                }
-                              },
-                            ),
-                          ],
-                        )
                       ],
                       context,
                     ),
@@ -189,7 +220,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
                                 }
                               }),
                           const SizedBox(
-                            height: 70,
+                            height: 60,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
