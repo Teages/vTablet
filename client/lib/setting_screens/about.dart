@@ -27,7 +27,7 @@ class AboutPage extends StatelessWidget {
                       "软件信息",
                       [
                         const Text(
-                          'v2.0.3 by Teages',
+                          'v3.0.0 by Teages',
                         ),
                         const SizedBox(
                           height: 35,
