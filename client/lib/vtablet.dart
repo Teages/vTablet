@@ -1,14 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:vtablet/configs.dart';
 
 import 'dart:developer' as developer;
 
 import 'package:wakelock/wakelock.dart';
+import 'package:fullscreen_window/fullscreen_window.dart';
 
-import 'package:vtablet/storage.dart';
-import 'package:vtablet/web.dart';
+import 'package:vtablet/services/states.dart';
+import 'package:vtablet/services/connect.dart';
 import 'package:vtablet/components/delay.dart';
-import 'package:vtablet/components/fullscreen_interface.dart';
 
 // ignore: must_be_immutable
 class VTabletPage extends StatelessWidget {
@@ -16,36 +17,30 @@ class VTabletPage extends StatelessWidget {
   final GlobalKey ariaKey = GlobalKey();
 
   // Aria settings
-  double scale = ConfigManager.getConfig("aria.scale", 0.5);
-  double ratio = StateManager.getConfig("aria.ratio", 16 / 9);
-  double offsetX = ConfigManager.getConfig("aria.offset.x", 0.0);
-  double offsetY = ConfigManager.getConfig("aria.offset.y", 0.0);
+  double scale = Configs.ariaScale.get();
+  double ratio = Configs.ariaRatio.get();
+  double offsetX = Configs.ariaOffsetX.get();
+  double offsetY = Configs.ariaOffsetY.get();
 
   // Input settings
-  bool enableMouse = ConfigManager.getConfig("input.enable.mouse", false);
-  bool enableTouch = ConfigManager.getConfig("input.enable.touch", false);
-  bool enablePen = ConfigManager.getConfig("input.enable.pen", true);
+  bool enableMouse = Configs.inputEnableMouse.get();
+  bool enableTouch = Configs.inputEnableTouch.get();
+  bool enablePen = Configs.inputEnablePen.get();
 
   // UI settings
-  bool pureBackground = ConfigManager.getConfig("ui.pureBackground", false);
+  bool pureBackground = false;
   bool showDelay = ConfigManager.getConfig("ui.showDelay", true);
 
   // Other settings
-  bool preventSleep = ConfigManager.getConfig("other.preventSleep", true);
+  bool preventSleep = Configs.preventSleep.get();
 
   late BuildContext buildContext;
 
-  // init
-  VTabletPage({
-    Key? key,
-  }) : super(key: key) {
-    // show dialog when disconnect
-    lostConncet() {
-      if (VTabletWS.isConnected.value == false) {
-        Wakelock.disable();
-        VTabletWS.isConnected.removeListener(lostConncet);
-        developer.log("Disconnceted.");
-
+  void lostConnect() {
+    if (VTabletWS.state.value != WsConnectionState.connected) {
+      Wakelock.disable();
+      developer.log("Disconnceted.");
+      try {
         showDialog(
           context: buildContext,
           builder: (BuildContext context) {
@@ -67,11 +62,19 @@ class VTabletPage extends StatelessWidget {
             );
           },
         );
+      } catch (e) {
+        // Ignore
       }
     }
+  }
 
-    VTabletWS.isConnected.addListener(lostConncet);
-    VTabletWS.autoPing = showDelay;
+  // init
+  VTabletPage({
+    Key? key,
+  }) : super(key: key) {
+    // show dialog when disconnect
+
+    VTabletWS.state.addListener(lostConnect);
   }
 
   pointerEventHandler(PointerEvent event) {
@@ -142,7 +145,7 @@ class VTabletPage extends StatelessWidget {
                       Navigator.pop(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Click again to exit."),
+                        content: Text("再点一次退出."),
                         duration: Duration(seconds: 1),
                       ));
                     }
@@ -191,9 +194,9 @@ class VTabletPage extends StatelessWidget {
   }
 
   void readyExit() {
-    VTabletWS.autoPing = true;
     Wakelock.disable();
+    VTabletWS.state.removeListener(lostConnect);
 
-    FullscreenManager().exit();
+    FullScreenWindow.setFullScreen(false);
   }
 }

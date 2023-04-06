@@ -15,7 +15,7 @@ import (
 
 var (
 	appName    = "vTablet"
-	appVersion = "v2.1.0"
+	appVersion = "v3.0.0"
 )
 
 func initTray(onExit func()) {
@@ -24,7 +24,7 @@ func initTray(onExit func()) {
 		systray.SetTitle("vTablet")
 		systray.SetTooltip("vTablet")
 
-		mAbout := systray.AddMenuItem(fmt.Sprint(appName, ' ', appVersion), "About")
+		mAbout := systray.AddMenuItem(fmt.Sprint(appName, " ", appVersion), "About")
 
 		go func() {
 			for {
