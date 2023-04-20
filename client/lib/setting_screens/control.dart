@@ -4,16 +4,11 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import '../components/setting_card.dart';
 
-class ControlPage extends StatefulWidget {
+class ControlPage extends StatelessWidget {
   const ControlPage({
     super.key,
   });
 
-  @override
-  State<ControlPage> createState() => _ControlPageState();
-}
-
-class _ControlPageState extends State<ControlPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,103 +21,143 @@ class _ControlPageState extends State<ControlPage> {
               padding: const EdgeInsets.all(20),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ...createSettingCard(
-                      AppLocalizations.of(context)!.controlAriaTitle,
-                      [
-                        LabelSlider(
-                          label: AppLocalizations.of(context)!
-                              .controlAriaScaleLabel,
-                          value: Configs.ariaScale.get(),
-                          max: 1,
-                          min: 0,
-                          divisions: 100,
-                          onChanged: (newVal) => {
-                            setState(() {
-                              Configs.ariaScale.set(newVal);
-                            })
-                          },
-                        ),
-                        LabelSlider(
-                          label: AppLocalizations.of(context)!
-                              .controlAriaOffsetXLabel,
-                          value: Configs.ariaOffsetX.get(),
-                          max: 1,
-                          min: -1,
-                          divisions: 100,
-                          onChanged: (newVal) => {
-                            setState(() {
-                              Configs.ariaOffsetX.set(newVal);
-                            })
-                          },
-                        ),
-                        LabelSlider(
-                          label: AppLocalizations.of(context)!
-                              .controlAriaOffsetYLabel,
-                          value: Configs.ariaOffsetY.get(),
-                          max: 1,
-                          min: -1,
-                          divisions: 100,
-                          onChanged: (newVal) => {
-                            setState(() {
-                              Configs.ariaOffsetY.set(newVal);
-                            })
-                          },
-                        ),
-                      ],
-                      context,
-                    ),
-                    ...createSettingCard(
-                      AppLocalizations.of(context)!.controlInputTypeTitle,
-                      [
-                        const InputChoice(),
-                        const SizedBox(
-                          height: 45,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(AppLocalizations.of(context)!
-                                .controlInputIgnoreClick),
-                            Switch(
-                              value: Configs.inputIgnoreClick.get(),
-                              onChanged: (bool on) {
-                                setState(() {
-                                  Configs.inputIgnoreClick.set(on);
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                      context,
-                    ),
-                    ...createSettingCard(
-                      AppLocalizations.of(context)!.controlOtherTitle,
-                      [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(AppLocalizations.of(context)!
-                                .controlPreventSleep),
-                            Switch(
-                              value: Configs.preventSleep.get(),
-                              onChanged: (bool on) {
-                                setState(() {
-                                  Configs.preventSleep.set(on);
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                      context,
-                    ),
+                  children: const [
+                    ControlAriaCard(),
+                    ControlInputTypeCard(),
+                    ControlOtherCard(),
                   ]),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ControlOtherCard extends StatefulWidget {
+  const ControlOtherCard({
+    super.key,
+  });
+
+  @override
+  State<ControlOtherCard> createState() => _ControlOtherCardState();
+}
+
+class _ControlOtherCardState extends State<ControlOtherCard> {
+  @override
+  Widget build(BuildContext context) {
+    return CardWithTitle(
+      title: AppLocalizations.of(context)!.controlOtherTitle,
+      content: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(AppLocalizations.of(context)!.controlPreventSleep),
+            Switch(
+              value: Configs.preventSleep.get(),
+              onChanged: (bool on) {
+                setState(() {
+                  Configs.preventSleep.set(on);
+                });
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ControlInputTypeCard extends StatefulWidget {
+  const ControlInputTypeCard({
+    super.key,
+  });
+
+  @override
+  State<ControlInputTypeCard> createState() => _ControlInputTypeCardState();
+}
+
+class _ControlInputTypeCardState extends State<ControlInputTypeCard> {
+  @override
+  Widget build(BuildContext context) {
+    return CardWithTitle(
+      title: AppLocalizations.of(context)!.controlInputTypeTitle,
+      content: [
+        const InputChoice(),
+        const SizedBox(
+          height: 45,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(AppLocalizations.of(context)!.controlInputIgnoreClick),
+            Switch(
+              value: Configs.inputIgnoreClick.get(),
+              onChanged: (bool on) {
+                setState(() {
+                  Configs.inputIgnoreClick.set(on);
+                });
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ControlAriaCard extends StatefulWidget {
+  const ControlAriaCard({
+    super.key,
+  });
+
+  @override
+  State<ControlAriaCard> createState() => _ControlAriaCardState();
+}
+
+class _ControlAriaCardState extends State<ControlAriaCard> {
+  @override
+  Widget build(BuildContext context) {
+    return CardWithTitle(
+      title: AppLocalizations.of(context)!.controlAriaTitle,
+      content: [
+        LabelSlider(
+          label: AppLocalizations.of(context)!.controlAriaScaleLabel,
+          value: Configs.ariaScale.get(),
+          max: 1,
+          min: 0,
+          divisions: 100,
+          onChanged: (newVal) => {
+            setState(() {
+              Configs.ariaScale.set(newVal);
+            })
+          },
+        ),
+        LabelSlider(
+          label: AppLocalizations.of(context)!.controlAriaOffsetXLabel,
+          value: Configs.ariaOffsetX.get(),
+          max: 1,
+          min: -1,
+          divisions: 100,
+          onChanged: (newVal) => {
+            setState(() {
+              Configs.ariaOffsetX.set(newVal);
+            })
+          },
+        ),
+        LabelSlider(
+          label: AppLocalizations.of(context)!.controlAriaOffsetYLabel,
+          value: Configs.ariaOffsetY.get(),
+          max: 1,
+          min: -1,
+          divisions: 100,
+          onChanged: (newVal) => {
+            setState(() {
+              Configs.ariaOffsetY.set(newVal);
+            })
+          },
+        ),
+      ],
     );
   }
 }

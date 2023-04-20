@@ -24,55 +24,55 @@ class AboutPage extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...createSettingCard(
-                      AppLocalizations.of(context)!.aboutSoftwareInfoTitle,
-                      [
-                        const Text(
-                          'v3.0.0 by Teages',
-                        ),
-                        const SizedBox(
-                          height: 35,
-                        ),
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size.fromHeight(50),
-                            backgroundColor: Theme.of(context).primaryColor,
-                          ),
-                          onPressed: () {
-                            launchUrlString('https://github.com/Teages/vTablet',
-                                mode: LaunchMode.externalApplication);
-                          },
-                          icon: const Icon(
-                            Mdi.github,
-                            color: Colors.white,
-                          ),
-                          label: Text(
-                            AppLocalizations.of(context)!.aboutGithubBtn,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                      context,
-                    ),
+                    const CardAboutSoftwareInfo(),
                     Text(
                       'Copyright © Teages. All rights reserved.',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
-                    // ...SettingCard(
-                    //   AppLocalizations.of(context)!.aboutUpdateCheckTitle,
-                    //   [],
-                    //   context,
-                    // ),
-                    // ...SettingCard(
-                    //   AppLocalizations.of(context)!.aboutDonateTitle,
-                    //   [],
-                    //   context,
-                    // ),
                   ]),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CardAboutSoftwareInfo extends StatelessWidget {
+  const CardAboutSoftwareInfo({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CardWithTitle(
+      title: AppLocalizations.of(context)!.aboutSoftwareInfoTitle,
+      content: [
+        const Text(
+          'v3.0.0 by Teages',
+        ),
+        const SizedBox(
+          height: 35,
+        ),
+        ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size.fromHeight(50),
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+          onPressed: () {
+            launchUrlString('https://github.com/Teages/vTablet',
+                mode: LaunchMode.externalApplication);
+          },
+          icon: const Icon(
+            Mdi.github,
+            color: Colors.white,
+          ),
+          label: Text(
+            AppLocalizations.of(context)!.aboutGithubBtn,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 }
