@@ -11,6 +11,6 @@ var (
 	adbFiles embed.FS
 	adbPath  = func() string {
 		vfile.JoinPart("libs/adb", "windows", adbFiles)
-		return vfile.GetPath("libs/adb/adb")
+		return vfile.GetPath("libs/adb/adb.exe")
 	}()
 )
