@@ -44,7 +44,8 @@ func Exec(args ...string) {
 func init() {
 	Exec("start-server")
 	a, err := adb.NewWithConfig(adb.ServerConfig{
-		Port: *flag.Int("p", adb.AdbPort, ""),
+		PathToAdb: adbPath,
+		Port:      *flag.Int("p", adb.AdbPort, ""),
 	})
 	if logger.Catch(err) {
 		logger.Error("Can't start ADB server")
