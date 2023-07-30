@@ -27,7 +27,7 @@ require (
 )
 
 require (
-	github.com/Teages/go-vdigi v0.1.2
+	github.com/Teages/go-vdigi v0.1.3
 	github.com/Teages/go-vfile v0.0.2
 	github.com/getlantern/systray v1.2.1
 	github.com/go-ole/go-ole v1.2.6 // indirect
