@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bytes"
+	"encoding/binary"
 	"strconv"
-	"strings"
 
 	"github.com/Teages/vTablet/internal/logger"
 	"github.com/Teages/vTablet/internal/pointer"
+	"github.com/Teages/vTablet/internal/protocol"
 	"golang.org/x/net/websocket"
 )
 
@@ -25,40 +27,81 @@ func pointerServices(screeUid string, c *websocket.Conn) {
 		pd.Destroy()
 	}()
 
-	recevedMsg := make([]byte, 512)
-	recevedSize := 0
+	receivedMsg := make([]byte, 512)
+	receivedSize := 0
 	var err error
 
+	responser := func(msg string) error {
+		_, err = c.Write([]byte(msg))
+		if logger.Catch(err) {
+			return err
+		}
+		return nil
+	}
+
 	for {
-		recevedSize, err = c.Read(recevedMsg)
+		receivedSize, err = c.Read(receivedMsg)
 		if logger.Catch(err) {
 			break
 		}
 
-		r := func(msg []byte) []byte {
-			// Ping: t int64
-			_, err := strconv.ParseInt(string(msg), 10, 64)
-			if err == nil {
-				return msg
+		func(msg []byte) {
+			handler := func(motionType uint16, motionCode uint16, motionValue int32) {
+				motion := protocol.EventType(motionType)
+
+				// syn
+				if motion == protocol.EvSyn {
+					code := protocol.Syn(motionCode)
+					switch code {
+					case protocol.SynReport:
+						pd.Update()
+					case protocol.SynPing:
+						responser(strconv.Itoa(int(motionValue)))
+					}
+				}
+
+				// abs
+				if motion == protocol.EvAbs {
+					code := protocol.Abs(motionCode)
+					switch code {
+					case protocol.AbsX:
+						logger.Log("x %d", motionValue)
+						pd.X = int32(motionValue)
+					case protocol.AbsY:
+						logger.Log("y %d", motionValue)
+						pd.Y = int32(motionValue)
+					case protocol.AbsPressure:
+						logger.Log("pressure %d", motionValue)
+						pd.Pressure = uint32(motionValue)
+					case protocol.AbsTiltX:
+						logger.Log("TiltX %d", motionValue)
+						pd.TiltX = int32(motionValue)
+					case protocol.AbsTiltY:
+						logger.Log("TiltY %d", motionValue)
+						pd.TiltY = int32(motionValue)
+					default:
+						logger.Error("Unknown abs code: %d", code)
+					}
+				}
 			}
 
-			// Pointerevent: x, y int32, p uint32
-			data := strings.Split(string(msg), ",")
-			if len(data) == 3 {
-				x, _ := strconv.ParseInt(data[0], 10, 32)
-				y, _ := strconv.ParseInt(data[1], 10, 32)
-				p, _ := strconv.ParseInt(data[2], 10, 32)
-				pd.Update(int32(x), int32(y), uint32(p*2048/8192))
+			// Pointer Event: type(4) motion(4) value(8), could be multiple
+			for i := 0; i < len(msg); i += 8 {
+				if i+8 > len(msg) {
+					break
+				}
+				motionType := binary.BigEndian.Uint16(msg[i : i+2])
+				motionCode := binary.BigEndian.Uint16(msg[i+2 : i+4])
+				var motionValue int32
+				binary.Read(bytes.NewReader(msg[i+4:i+8]), binary.BigEndian, &motionValue)
+				handler(motionType, motionCode, motionValue)
 			}
+		}(receivedMsg[:receivedSize])
 
-			return nil
-		}(recevedMsg[:recevedSize])
-
-		if r != nil {
-			_, err = c.Write(recevedMsg[:recevedSize])
-		}
 		if logger.Catch(err) {
 			break
 		}
 	}
 }
+
+// utils

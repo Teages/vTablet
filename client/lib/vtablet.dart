@@ -4,6 +4,7 @@ import 'package:vtablet/configs.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 import 'dart:developer' as developer;
+import 'dart:math' as math;
 
 import 'package:wakelock/wakelock.dart';
 import 'package:fullscreen_window/fullscreen_window.dart';
@@ -85,6 +86,8 @@ class VTabletPage extends StatelessWidget {
     var rawY = event.position.dy;
     var rawPressure = event.pressure;
     var rawType = event.kind;
+    var rawTilt = event.tilt;
+    var rawOrientation = event.orientation;
 
     var boxWidth = boxKey.currentContext!.size!.width;
     var boxHeight = boxKey.currentContext!.size!.height;
@@ -101,22 +104,27 @@ class VTabletPage extends StatelessWidget {
     int pointerX = screenToDigi(rawX, offsetX, ariaWidth, boxWidth);
     int pointerY = screenToDigi(rawY, offsetY, ariaHeight, boxHeight);
     int pressure = (8192 * rawPressure).toInt();
-    developer.log('Pointer($pointerX, $pointerY) $pressure by $rawType');
+
+    double tiltX = rawTilt * math.cos(rawOrientation) * 90;
+    double tiltY = rawTilt * math.sin(rawOrientation) * 90;
+
+    // developer.log(
+    //     'Pointer($pointerX, $pointerY) $pressure ($tiltX, $tiltY) by $rawType');
 
     switch (rawType) {
       case PointerDeviceKind.mouse:
         if (enableMouse) {
-          VTabletWS.sendDigi(pointerX, pointerY, pressure);
+          VTabletWS.sendDigi(pointerX, pointerY, pressure, tiltX, tiltY);
         }
         break;
       case PointerDeviceKind.touch:
         if (enableTouch) {
-          VTabletWS.sendDigi(pointerX, pointerY, pressure);
+          VTabletWS.sendDigi(pointerX, pointerY, pressure, tiltX, tiltY);
         }
         break;
       case PointerDeviceKind.stylus:
         if (enablePen) {
-          VTabletWS.sendDigi(pointerX, pointerY, pressure);
+          VTabletWS.sendDigi(pointerX, pointerY, pressure, tiltX, tiltY);
         }
         break;
       default:

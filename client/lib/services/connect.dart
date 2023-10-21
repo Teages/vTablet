@@ -83,6 +83,8 @@ class WsClient {
   WsConnectionState state = WsConnectionState.disconnected;
   final Function(WsConnectionState) _onStateChange;
 
+  int baseTime = DateTime.now().millisecondsSinceEpoch;
+
   WsClient.connect(String host, String path, Function(int) onDelay,
       Function(WsConnectionState) onStateChange)
       : _onStateChange = onStateChange {
@@ -105,7 +107,7 @@ class WsClient {
         }
         var value = int.tryParse(message);
         if (value != null) {
-          var delay = (DateTime.now().millisecondsSinceEpoch) + value;
+          var delay = (((timeFromBase()) + value) / 2).ceil();
           if (state == WsConnectionState.connected) {
             onDelay(delay);
           }
@@ -133,23 +135,75 @@ class WsClient {
   }
 
   _ping() {
-    _send((0 - DateTime.now().millisecondsSinceEpoch).toString());
+    _sendBlob(buildMessage(
+      EventType.EvSyn.value,
+      Syn.Ping.value,
+      0 - timeFromBase(),
+    ));
   }
 
-  sendDigi(int x, int y, int pressure) {
-    if (Configs.inputIgnoreClick.get()) {
-      pressure = 0;
-    }
-    _send("$x,$y,$pressure");
+  sendDigi(int x, int y, int pressure, double tiltX, double tiltY) {
+    var inputIgnoreClick = Configs.inputIgnoreClick.get();
+    var msg = [
+      buildMessage(
+        EventType.EvAbs.value,
+        Abs.X.value,
+        x,
+      ),
+      buildMessage(
+        EventType.EvAbs.value,
+        Abs.Y.value,
+        y,
+      ),
+      buildMessage(
+        EventType.EvAbs.value,
+        Abs.Pressure.value,
+        inputIgnoreClick ? 0 : pressure,
+      ),
+      buildMessage(
+        EventType.EvAbs.value,
+        Abs.TiltX.value,
+        (tiltX * 32767 / 90).floor(),
+      ),
+      buildMessage(
+        EventType.EvAbs.value,
+        Abs.TiltY.value,
+        (tiltY * 32767 / 90).floor(),
+      ),
+      buildMessage(
+        EventType.EvSyn.value,
+        Syn.Report.value,
+        0,
+      )
+    ];
+
+    _sendBlob(Uint8List.fromList(msg.expand((x) => x).toList()));
   }
 
-  _send(String str) {
+  _sendBlob(Uint8List blob) {
     try {
-      channel.sink.add(str);
+      channel.sink.add(blob);
     } catch (e) {
       disconnect();
-      Logger().d(e.toString());
     }
+  }
+
+  static Uint8List buildMessage(int motionType, int motionCode, int value) {
+    var bytes = Uint8List(8);
+
+    bytes[0] = (motionType >> 8) & 0xff;
+    bytes[1] = motionType & 0xff;
+
+    bytes[2] = (motionCode >> 8) & 0xff;
+    bytes[3] = motionCode & 0xff;
+
+    bytes[4] = (value >> 24) & 0xff;
+    bytes[5] = (value >> 16) & 0xff;
+
+    bytes[6] = (value >> 8) & 0xff;
+    bytes[7] = value & 0xff;
+
+    return bytes;
   }
 
   _disconnectErr(e) {
@@ -166,6 +220,10 @@ class WsClient {
       // Ignore
     }
   }
+
+  int timeFromBase() {
+    return (DateTime.now().millisecondsSinceEpoch - baseTime) % 0x100000000;
+  }
 }
 
 class VTabletWS {
@@ -181,7 +239,7 @@ class VTabletWS {
       path,
       (delayVal) {
         delay.value = delayVal;
-        Logger().d(delayVal, path);
+        // Logger().d(delayVal, path);
       },
       (stateVal) {
         state.value = stateVal;
@@ -201,9 +259,10 @@ class VTabletWS {
     client = null;
   }
 
-  static sendDigi(int x, int y, int pressure) {
+  static sendDigi(int x, int y, int pressure, double tiltX, double tiltY) {
     if (state.value == WsConnectionState.connected) {
-      client?.sendDigi(x, y, pressure);
+      // Logger().d("$x, $y, $pressure");
+      client?.sendDigi(x, y, pressure, tiltX, tiltY);
     }
   }
 }
@@ -229,5 +288,68 @@ class ValueNotifierList<T> extends ValueNotifier<List<T>> {
 
   void _copyValue() {
     value = [...value];
+  }
+}
+
+enum EventType {
+  EvSyn,
+  EvAbs,
+}
+
+enum Syn {
+  Report,
+  Ping,
+}
+
+enum Abs {
+  X,
+  Y,
+  Pressure,
+  TiltX,
+  TiltY,
+}
+
+extension EventTypeExtension on EventType {
+  int get value {
+    switch (this) {
+      case EventType.EvSyn:
+        return 0x0000;
+      case EventType.EvAbs:
+        return 0x0003;
+      default:
+        throw Exception('Invalid EventType');
+    }
+  }
+}
+
+extension SynExtension on Syn {
+  int get value {
+    switch (this) {
+      case Syn.Report:
+        return 0x0000;
+      case Syn.Ping:
+        return 0xffff;
+      default:
+        throw Exception('Invalid Syn');
+    }
+  }
+}
+
+extension AbsExtension on Abs {
+  int get value {
+    switch (this) {
+      case Abs.X:
+        return 0x0000;
+      case Abs.Y:
+        return 0x0001;
+      case Abs.Pressure:
+        return 0x0018;
+      case Abs.TiltX:
+        return 0x001a;
+      case Abs.TiltY:
+        return 0x001b;
+      default:
+        throw Exception('Invalid Abs');
+    }
   }
 }

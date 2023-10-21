@@ -1,7 +1,7 @@
 github.com/Teages/go-autostart v0.0.0-20220902154128-6e07ff286975 h1:fJyPPigvnVBwmCsY8I3C9Ag4RsN+dRAqm5uq6fkbMMM=
 github.com/Teages/go-autostart v0.0.0-20220902154128-6e07ff286975/go.mod h1:x1oXrbaZQHmTTE9pLj3LYjefeLkEYY+AAq/RODO9Cfg=
-github.com/Teages/go-vdigi v0.2.0 h1:94efgR51aLROQ3Burn5qchSaWBcMzr69k4ibQHdWeMY=
-github.com/Teages/go-vdigi v0.2.0/go.mod h1:fcSffmrQ8TJu8GH//dIbnEbw9g8BxQPrJYs5aUAyd1A=
+github.com/Teages/go-vdigi v0.2.1 h1:Xec0kR+qC5wnT4KQjuSoJuWQDyt8RJ1vxcf3MYpEuec=
+github.com/Teages/go-vdigi v0.2.1/go.mod h1:fcSffmrQ8TJu8GH//dIbnEbw9g8BxQPrJYs5aUAyd1A=
 github.com/Teages/go-vfile v0.0.2 h1:u2XOUsMrX9CIWp7s+pfMjlnrv3pUtijHdWxbqnmf+6E=
 github.com/Teages/go-vfile v0.0.2/go.mod h1:LhuEFb4vgmxCu3wzpgy9xNAF/2K+Awigkp+HMW5eXxM=
 github.com/benbjohnson/clock v1.1.0 h1:Q92kusRqC1XV2MjkWETPvjJVqKetz1OzxZB7mHJLju8=

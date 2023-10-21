@@ -15,7 +15,7 @@ import (
 
 func initWebServices(port int) {
 	flag.Parse()
-	http.Handle("/digi", digiWS())
+
 	http.HandleFunc("/", clientPage)
 	http.HandleFunc("/connect", connecter)
 
@@ -68,10 +68,4 @@ func connectFactory(screeUid string) websocket.Handler {
 
 func clientPage(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "https://vtablet.teages.xyz", http.StatusFound)
-}
-
-// old api, will remove
-func digiWS() websocket.Handler {
-	s, _ := vdigi.GetScreens().GetScreen(0)
-	return connectFactory(s.Uid)
 }
