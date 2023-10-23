@@ -15,7 +15,7 @@ import (
 
 var (
 	appName    = "vTablet"
-	appVersion = "v3.0.0"
+	appVersion = "v3.0.0 (Preview 4)"
 )
 
 func initTray(onExit func()) {

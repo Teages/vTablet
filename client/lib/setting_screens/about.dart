@@ -49,7 +49,7 @@ class CardAboutSoftwareInfo extends StatelessWidget {
       title: AppLocalizations.of(context)!.aboutSoftwareInfoTitle,
       content: [
         const Text(
-          'v3.0.0 by Teages',
+          'v3.0.0 (Preview 4) by Teages',
         ),
         const SizedBox(
           height: 35,
