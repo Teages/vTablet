@@ -19,9 +19,9 @@ class ControlPage extends StatelessWidget {
             Container(
               constraints: const BoxConstraints(maxWidth: 640),
               padding: const EdgeInsets.all(20),
-              child: Column(
+              child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     ControlAriaCard(),
                     ControlInputTypeCard(),
                     ControlOtherCard(),
