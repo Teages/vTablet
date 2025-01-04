@@ -65,13 +65,7 @@ jobs:
         with:
           name: vTablet_client_aab
           path: client/build/app/outputs/bundle/release/app-release.aab
-          
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: vTablet_client_apk_signed
           path: ${{steps.sign_apk.outputs.signedReleaseFile}}
-      # - uses: actions/upload-artifact@v2
-      #   with:
-      #     name: vTablet_client_aab_signed
-      #     path: ${{steps.sign_aab.outputs.signedReleaseFile}}
-
