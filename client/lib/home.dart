@@ -1,8 +1,7 @@
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:logger/logger.dart';
-
-import 'package:uni_links/uni_links.dart';
 
 import 'package:fullscreen_window/fullscreen_window.dart';
 import 'package:vtablet/configs.dart';
@@ -11,7 +10,7 @@ import 'package:vtablet/setting_screens/about.dart';
 import 'package:vtablet/setting_screens/appearance.dart';
 import 'package:vtablet/setting_screens/control.dart';
 import 'package:vtablet/vtablet.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'setting_screens/connection.dart';
 
@@ -37,7 +36,7 @@ class _HomeState extends State<Home> {
       try {
         Uri? startUrl;
         try {
-          startUrl = await getInitialUri();
+          startUrl = await AppLinks().getLatestLink();
         } catch (e) {
           // Ignore
         }
@@ -82,7 +81,7 @@ class _HomeState extends State<Home> {
                 return FloatingActionButton.extended(
                   onPressed: () {
                     if (VTabletWS.state.value == WsConnectionState.connected) {
-                      Wakelock.toggle(enable: Configs.preventSleep.get());
+                      WakelockPlus.toggle(enable: Configs.preventSleep.get());
                       Navigator.push(
                         context,
                         MaterialPageRoute(

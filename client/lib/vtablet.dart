@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'dart:developer' as developer;
 import 'dart:math' as math;
 
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:fullscreen_window/fullscreen_window.dart';
 
 import 'package:vtablet/services/states.dart';
@@ -40,7 +40,7 @@ class VTabletPage extends StatelessWidget {
 
   void lostConnect() {
     if (VTabletWS.state.value != WsConnectionState.connected) {
-      Wakelock.disable();
+      WakelockPlus.disable();
       developer.log("Disconnceted.");
       try {
         showDialog(
@@ -204,7 +204,7 @@ class VTabletPage extends StatelessWidget {
   }
 
   void readyExit() {
-    Wakelock.disable();
+    WakelockPlus.disable();
     VTabletWS.state.removeListener(lostConnect);
 
     FullScreenWindow.setFullScreen(false);

@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  app_links
   fullscreen_window
   url_launcher_windows
 )
